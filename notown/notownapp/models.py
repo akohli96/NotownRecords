@@ -9,7 +9,7 @@ class Instruments(models.Model):
     instrld = models.CharField(max_length=10,primary_key=True)
     dname = models.CharField(max_length=30)
     key = models.CharField(max_length=5)
-
+    plays = models.ManyToManyField(Musicians,through='Membership')
 
 #Using through table
 class Membership (models.Model):
@@ -18,6 +18,7 @@ class Membership (models.Model):
 
     class Meta:
         unique_together = ('ssn','instrld')
+
 
 class SongAppears(models.Model):
     songID = models.IntegerField()
