@@ -1,6 +1,7 @@
 from django.db import models
 
 
+
 class Musicians(models.Model):
     name = models.CharField(max_length=30)
     ssn = models.CharField(max_length=10, primary_key=True)
@@ -35,6 +36,10 @@ class Album_Producer(models.Model):
     speed = models.IntegerField()
     title = models.CharField(max_length=30)
 
+"""
+This has to be searched by customers. Input can be title,author or the Album_Producer title
+
+"""
 class SongAppears(models.Model):
     songID = models.IntegerField(primary_key=True)
     author = models.CharField(max_length=30)
@@ -64,3 +69,13 @@ class Lives(models.Model):
 
     class Meta:
         unique_together=('ssn','address')
+
+
+"""
+Customers can search for records by name of the musician, title of the album, and
+name of the song.
+b. Notown staff can search any table and can add/delete/alter a row in any table. Each
+Notown staff member has to provide this security code, cs430@SIUC, before she/he
+can submit an update command. No security check is needed for pure search.
+
+"""
