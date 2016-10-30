@@ -51,13 +51,25 @@ This has to be searched by customers. Input can be title,author or the Album_Pro
 #SongAppears.objects.get(albumident__title="Ayush Album1")
 class SongAppears(models.Model):
     songID = models.IntegerField(primary_key=True)
-    author = models.CharField(max_length=30)
+    author = models.ForeignKey(Musicians,related_name="musicianname")
     title = models.CharField(max_length=30)
     albumident = models.ForeignKey(Album_Producer)
     performs = models.ManyToManyField(Musicians,through="Performs")
 
     def __str__(self):
         return str(self.songID) + " \n " + str(self.author) + " \n " + str(self.title) + " \n " + str(self.albumident) + " \n " + str(self.performs)
+
+    #def clean(self):
+        #if(self.performs is None):
+        #    raise ValidationError(('Each song must be performed by atleast one musician.Add to performance'))
+        if(self.author != self.albumident.ssn):
+            raise ValidationError(('The song author and album author must be the same musician'))
+
+    def save(self):
+        try:
+            self.full_clean()
+        except ValidationError as e:
+            print e
 
 class Performs(models.Model):
     ssn = models.ForeignKey(Musicians)
