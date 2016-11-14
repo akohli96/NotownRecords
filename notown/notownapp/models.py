@@ -21,6 +21,9 @@ class Instruments(models.Model):
     def __str__(self):
         return str(self.instrld) + " " + str(self.dname) + " " +  str(self.key) + " " + str(self.plays)
 
+    def get_absolute_url(self):
+        return reverse('instruments-detail', kwargs={'pk': self.instrld})
+
 #Using through table
 class Plays (models.Model):
     ssn = models.ForeignKey(Musicians)
@@ -30,7 +33,13 @@ class Plays (models.Model):
         unique_together = ('ssn','instrld')
 
     def __str__(self):
-        return str(self.ssn) + " " + str(self.instrld)
+        return str(self.ssn.ssn) + "P" + str(self.instrld.instrld)
+
+    def urlify(self):
+        return str(self.ssn.ssn) + "P"  + str(self.instrld.instrld)
+
+    def get_absolute_url(self):
+        return reverse('plays-detail', kwargs={'pk': urlify(self)})
 
 
 class Album_Producer(models.Model):

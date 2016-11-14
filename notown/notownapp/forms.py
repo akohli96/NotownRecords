@@ -6,6 +6,9 @@ class MusiciansForm(ModelForm):
         model = Musicians
         fields = '__all__'
 
+
+
+
 class InstrumentsForm(ModelForm):
     class Meta:
         model = Instruments
