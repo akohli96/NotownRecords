@@ -1,0 +1,13 @@
+<h1> Plays </h1>
+
+<ul>
+
+  {% for play in plays %}
+    {{play}}
+    
+    <a href="{% url "plays_edit" play.urlify %}">Edit</a>
+    <a href="{% url "plays_delete" play.urlify  %}">Delete</a>
+  {% endfor %}
+
+</ul>
+<a href="{% url "plays_new" %}">New Play</a>
