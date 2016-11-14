@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotAllowed
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 
@@ -38,3 +38,11 @@ class MusiciansDelete(DeleteView):
 	success_url = reverse_lazy('musicians_list')
 	#context_object_name = 'musicians'
 	fields = '__all__'
+
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('musicians_list'))
+
+		return super(MusiciansDelete, self).post(request, *args, **kwargs)
