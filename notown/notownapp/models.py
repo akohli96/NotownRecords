@@ -9,6 +9,9 @@ class Musicians(models.Model):
     def __str__(self):
         return str(self.name) + " " + str(self.ssn)
 
+    def get_absolute_url(self):
+        return reverse('musicians-detail', kwargs={'pk': self.ssn})
+
 class Instruments(models.Model):
     instrld = models.CharField(max_length=10,primary_key=True)
     dname = models.CharField(max_length=30)
