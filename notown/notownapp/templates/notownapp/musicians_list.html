@@ -1,0 +1,14 @@
+<h1> Musicians </h1>
+
+<ul>
+
+  {% for musician in musicians %}
+    <li>Name: {{ musician.name}}
+      SSN: {{musician.ssn}}
+    <a href="{% url "musicians_edit" musician.ssn %}">Edit</a>
+    <a href="{% url "musicians_delete" musician.ssn  %}">Delete</a>
+  </li>
+  {% endfor %}
+
+</ul>
+<a href="{% url "musicians_new" %}">New Musician</a>
