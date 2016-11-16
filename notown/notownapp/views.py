@@ -23,6 +23,15 @@ class MusiciansList(ListView):
 	model = Musicians
 	context_object_name = 'musicians'
 
+	def get_queryset(self):
+		print "Queryset"
+		queryset=Musicians.objects.all()
+		print self.request.GET.get("search_box")
+
+		return queryset
+
+
+
 class MusiciansCreate(CreateView):
 	model = Musicians
 	success_url = reverse_lazy('musicians_list')

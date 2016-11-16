@@ -15,6 +15,13 @@ class MembershipInline(admin.TabularInline):
     model=Plays
     extra = 1
 
+class PerformsInline(admin.TabularInline):
+    model = Performs
+    extra = 1
+
+class SongAppearsAdmin(admin.ModelAdmin):
+    inlines = (PerformsInline,)
+
 class InstrumentsAdmin(admin.ModelAdmin):
     inlines = (MembershipInline,)
 
@@ -23,11 +30,12 @@ class MusiciansAdmin(admin.ModelAdmin):
 
 admin.site.register(Musicians,MusiciansAdmin)
 admin.site.register(Instruments, InstrumentsAdmin)
+admin.site.register(SongAppears,SongAppearsAdmin)
 
 app = apps.get_app_config('notownapp')
 for model_name,model in app.models.items():
     print model,model_name
-    if ('musicians' not in model_name and 'instruments' not in model_name):
+    if ('musicians' not in model_name and 'instruments' not in model_name and 'songappears' not in model_name):
         print model
         #print "NOT THE ONES REGISTERED ALREADY"
         admin.site.register(model)
