@@ -1,0 +1,8 @@
+{% for song in songappears %}
+  <li>Name: {{ song }}
+  <a href="{% url "songappears_edit" song.songID %}">Edit</a>
+  <a href="{% url "songappears_delete" song.songID  %}">Delete</a>
+
+
+</li>
+{% endfor %}
