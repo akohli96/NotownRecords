@@ -12,10 +12,14 @@ urlpatterns = [ url(r'^$' , views.index, name='index'),
                 url(r'^playsnew/$',PlaysCreate.as_view(),name='plays_new'),
                 url(r'^playsedit/(?P<pk>\d+P\d+)$',PlaysUpdate.as_view(),name='plays_edit'),
                 url(r'^plays/(?P<pk>\d+P\d+)$',PlaysDelete.as_view(),name='plays_delete'),
-                url(r'^albumproducers/$',Album_ProducerList.as_view(),name="album_producers_list"),
+                url(r'^albumproducerslist/$',Album_ProducerList.as_view(),name="album_producers_list"),
                 url(r'^albumproducersnew/$',Album_ProducerCreate.as_view(),name='album_producers_new'),
                 url(r'^albumproducersedit/(?P<pk>\d+)$',Album_ProducerUpdate.as_view(),name='album_producers_edit'),
                 url(r'^albumproducersdelete/(?P<pk>\d+)$',Album_ProducerDelete.as_view(),name='album_producers_delete'),
+                url(r'^instruments/$',InstrumentsList.as_view(),name='instruments_list'),
+                url(r'^instrumentsnew/$',InstrumentsCreate.as_view(),name='instruments_new'),
+                url(r'^instrumentsedit/(?P<pk>\d+)$',InstrumentsUpdate.as_view(),name='instruments_edit'),
+                url(r'^instrumentsdelete/(?P<pk>\d+)$',InstrumentsDelete.as_view(),name='instruments_delete'),
 
                ]
 

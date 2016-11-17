@@ -27,15 +27,29 @@ class Album_ProducerList(ListView):
 	def get_queryset(self):
 		print "Album Producer Queryset"
 
+
 		ALBUMIDENTIFIER = self.request.GET.get("albumidentifier")
 		COPYRIGHTDATE = self.request.GET.get("copyrightdate")
 		TITLE = self.request.GET.get("title")
 		SPEED = self.request.GET.get("speed")
 		SSN = self.request.GET.get("ssn")
 
+		print "ALBUM"
+		print self.request.GET.get("albumidentifier")
+		print "COPYRIGHTDATE"
+		print self.request.GET.get("copyrightdate")
+		print "TITLE"
+		print self.request.GET.get("title")
+		print "SPEED"
+	 	print self.request.GET.get("speed")
+		print "SSN"
+		print self.request.GET.get("ssn")
+
+
 		print ALBUMIDENTIFIER,COPYRIGHTDATE,TITLE,SPEED,SSN
 
-		if (None == ALBUMIDENTIFIER or  None == COPYRIGHTDATE or None == TITLE or None ==  SPEED or None == SSN):
+		if (None == ALBUMIDENTIFIER and  None == COPYRIGHTDATE and None == TITLE and None ==  SPEED and None == SSN):
+			print "RETURNING ALL"
 			return Album_Producer.objects.all()
 		else:
 			queryset = Album_Producer.objects.filter(albumident__icontains=ALBUMIDENTIFIER)
@@ -51,18 +65,18 @@ class Album_ProducerList(ListView):
 
 class Album_ProducerCreate(CreateView):
 	model = Album_Producer
-	success_url = reverse_lazy('album_producer_list')
+	success_url = "/notownapp/albumproducerslist/"
 	fields = "__all__"
 
 class Album_ProducerUpdate(UpdateView):
 	model = Album_Producer
-	success_url = reverse_lazy('album_producer_list')
+	success_url = reverse_lazy('album_producers_list')
 	#context_object_name = 'musicians'
 	fields = '__all__'
 
 class Album_ProducerDelete(DeleteView):
 	model = Album_Producer
-	success_url = reverse_lazy('album_producer_list')
+	success_url = reverse_lazy('album_producers_list')
 	#context_object_name = 'musicians'
 	fields = '__all__'
 
@@ -70,7 +84,7 @@ class Album_ProducerDelete(DeleteView):
 		print request.POST
 		print request.POST["password"]
 		if request.POST["password"] != "cs430":
-			return HttpResponseRedirect(reverse_lazy('album_producer_list'))
+			return HttpResponseRedirect(reverse_lazy('album_producers_list'))
 
 		return super(Album_ProducerDelete, self).post(request, *args, **kwargs)
 
@@ -191,3 +205,41 @@ class PlaysDelete(DeleteView):
 		print self.kwargs
 		SSN,INSTRLD = self.kwargs['pk'].split("P")
 		return Plays.objects.get(ssn=SSN,instrld=INSTRLD)
+
+class InstrumentsList(ListView):
+	model = Instruments
+	context_object_name = 'instruments'
+	#Musicians.objects.filter(ssn__contains=853253156,name__contains="Ayush")
+	"""
+	def get_queryset(self):
+		print "Queryset"
+
+		NAME= self.request.GET.get("name")
+		SSN = self.request.GET.get("ssn")
+		print NAME,SSN
+
+		if SSN is not None and NAME is not None:
+			queryset=Musicians.objects.filter(ssn__icontains=SSN)
+			print queryset
+			#print queryset.filter(name__contains=NAME.tolower())
+			queryset = queryset.filter(name__icontains=NAME)
+			print queryset
+			return queryset
+		else:
+			return Musicians.objects.all()
+		"""
+
+class InstrumentsCreate(CreateView):
+	model = Instruments
+	success_url = reverse_lazy('instruments_list')
+	fields = '__all__'
+
+class InstrumentsUpdate(UpdateView):
+	model = Instruments
+	success_url = reverse_lazy('instruments_list')
+	fields = '__all__'
+
+class InstrumentsDelete(DeleteView):
+	model = Instruments
+	success_url = reverse_lazy('instruments_list')
+	fields = '__all__'

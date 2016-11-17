@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError, NON_FIELD_ERRORS
+from django.core.urlresolvers import reverse
 
 
 class Musicians(models.Model):
