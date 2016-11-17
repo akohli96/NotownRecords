@@ -107,6 +107,9 @@ class SongAppears(models.Model):
         except ValidationError as e:
             print e
 
+    def get_absolute_url(self):
+        return reverse('songappears-detail',kwargs={'pk' : self.songID})
+        
 
 #Performs.objects.all()
 #Performs.objects.filter(ssn__ssn__icontains="")

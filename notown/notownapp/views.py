@@ -243,3 +243,24 @@ class InstrumentsDelete(DeleteView):
 	model = Instruments
 	success_url = reverse_lazy('instruments_list')
 	fields = '__all__'
+
+class SongAppearsList(ListView):
+	model = SongAppears
+	context_object_name = 'songappears'
+	success_url = reverse_lazy('songappears_list')
+	fields = '__all__'
+
+class SongAppearsUpdate(UpdateView):
+	model = SongAppears
+	success_url = reverse_lazy('songappears_list')
+	fields = '__all__'
+
+class SongAppearsDelete(DeleteView):
+	model = SongAppears
+	success_url = reverse_lazy('songappears_list')
+	fields = '__all__'
+
+class SongAppearsCreate(CreateView):
+	model = SongAppears
+	success_url = reverse_lazy('songappears_list')
+	fields = '__all__'

@@ -20,6 +20,10 @@ urlpatterns = [ url(r'^$' , views.index, name='index'),
                 url(r'^instrumentsnew/$',InstrumentsCreate.as_view(),name='instruments_new'),
                 url(r'^instrumentsedit/(?P<pk>\d+)$',InstrumentsUpdate.as_view(),name='instruments_edit'),
                 url(r'^instrumentsdelete/(?P<pk>\d+)$',InstrumentsDelete.as_view(),name='instruments_delete'),
+                url(r'^songappears/$',SongAppearsList.as_view(),name='songappears_list'),
+                url(r'^songappearsnew/$',SongAppearsCreate.as_view(),name='songappears_new'),
+                url(r'^songappearsedit/(?P<pk>\d+)$',SongAppearsUpdate.as_view(),name='songappears_edit'),
+                url(r'^songappearsdelete/(?P<pk>\d+)$',SongAppearsDelete.as_view(),name='songappears_delete'),
 
                ]
 
