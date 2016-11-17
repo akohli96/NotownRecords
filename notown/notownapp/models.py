@@ -109,7 +109,7 @@ class SongAppears(models.Model):
 
     def get_absolute_url(self):
         return reverse('songappears-detail',kwargs={'pk' : self.songID})
-        
+
 
 #Performs.objects.all()
 #Performs.objects.filter(ssn__ssn__icontains="")
@@ -125,10 +125,10 @@ class Performs(models.Model):
         return str(self.ssn) + " " + str(self.songID)
 
     def urlify(self):
-        return str(self.ssn.ssn) + "P"  + str(self.song.instrld)
+        return str(self.songID.songID) + "p"  + str(self.ssn.ssn)
 
     def get_absolute_url(self):
-        return reverse('plays-detail', kwargs={'pk': urlify(self)})
+        return reverse('performs-detail', kwargs={'pk': urlify(self)})
 
 #Places.objects.filter(address__icontains="STRING")
 class Places(models.Model):
@@ -136,6 +136,9 @@ class Places(models.Model):
 
     def __str__(self):
         return str(self.address)
+
+    def get_absolute_url(self):
+        return reverse('address-detail', kwargs={'pk' : self.address})
 
 #Telephone_Home.objects.filter(phone__icontains="85")
 #Telephone_Home.objects.filter(address__address__icontains="85")
@@ -159,6 +162,8 @@ class Lives(models.Model):
 
     def __str__(self):
         return str(self.ssn) + " " + str(self.phone) + " " + str(self.address)
+
+
 
     #print str(self.phone)
     def clean(self):
