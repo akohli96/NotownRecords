@@ -148,7 +148,9 @@ class Places(models.Model):
         return str(self.address)
 
     def get_absolute_url(self):
-        return reverse('address-detail', kwargs={'pk' : self.address})
+        print str(self.address)
+        print "ABSOLUTE URL"
+        return reverse('address-detail', kwargs={'pk' : str(self.address)})
 
 #Telephone_Home.objects.filter(phone__icontains="85")
 #Telephone_Home.objects.filter(address__address__icontains="85")

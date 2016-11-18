@@ -308,6 +308,24 @@ class PlacesCreate(CreateView):
 	model = Places
 	success_url = reverse_lazy('places_list')
 	fields = '__all__'
+	print "CREATE PLACE"
+	def form_valid(self,form):
+		print form
+		print form.cleaned_data['address']
+		return super(PlacesCreate, self).form_valid(form)
+
+	def post(self, request, *args, **kwargs):
+		#print request.args
+		print request.POST['address']
+		#print #request.POST["password"]
+		#if request.POST["password"] != "cs430":
+		#	return HttpResponseRedirect(reverse_lazy('plays_list'))
+
+
+
+		return super(PlacesCreate, self).post(request, *args, **kwargs)
+
+
 
 class PlacesUpdate(UpdateView):
 	model = Places
