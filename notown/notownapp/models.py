@@ -30,6 +30,16 @@ class Instruments(models.Model):
 
     def get_absolute_url(self):
         return reverse('instruments-detail', kwargs={'pk': self.instrld})
+    """
+    >>> for musician in i2.plays.all():
+    ...  print musician
+    ...
+    Bob 8532531563
+    >>> Instruments.objects.get(pk=2)
+    <Instruments: 2 G-G Bflat notownapp.Musicians.None>
+    >>>http://stackoverflow.com/questions/387686/what-are-the-steps-to-make-a-modelform-work-with-a-manytomany-relationship-with
+
+    """
 
 #Using through table
 #Plays.objects.filter(ssn__ssn__icontains="")
@@ -149,6 +159,9 @@ class Telephone_Home(models.Model):
     def __str__(self):
         return str(self.phone) + " " + str(self.address)
 
+    def get_absolute_url(self):
+        return reverse('telephone_home-detail', kwargs={'pk' : self.phone})
+
 #Lives.objects.filter(ssn__ssn__icontains=85)
 #Lives.objects.filter(phone__phone__icontains=85)
 #Lives.objects.filter(address__address__icontains=85)
@@ -162,6 +175,12 @@ class Lives(models.Model):
 
     def __str__(self):
         return str(self.ssn) + " " + str(self.phone) + " " + str(self.address)
+
+    def urlify(self):
+        return str(self.ssn.ssn) + "LIVES" + str(self.address.address)
+
+    def get_absolute_url(self):
+        return reverse('lives-detail', kwargs={'pk' : urlify(self)})
 
 
 

@@ -264,3 +264,105 @@ class SongAppearsCreate(CreateView):
 	model = SongAppears
 	success_url = reverse_lazy('songappears_list')
 	fields = '__all__'
+
+
+class PerformsCreate(CreateView):
+	model = Performs
+	success_url = reverse_lazy('performs_list')
+	fields = '__all__'
+
+class PerformsList(ListView):
+	model = Performs
+	context_object_name = 'performs'
+	success_url = reverse_lazy('performs_list')
+	fields = '__all__'
+
+class PerformsUpdate(UpdateView):
+	model = Performs
+	success_url = reverse_lazy('performs_list')
+	fields = '__all__'
+	def get_object(self):
+		print self.kwargs
+		SONGID,SSN = self.kwargs['pk'].split("p")
+		print SSN,SONGID
+		return Performs.objects.get(songID=SONGID,ssn=SSN)
+
+class PerformsDelete(DeleteView):
+	model = Performs
+	success_url = reverse_lazy('performs_list')
+	fields = '__all__'
+	#return str(self.songID.songID) + "p"  + str(self.ssn.ssn)
+	def get_object(self):
+		print self.kwargs
+		SONGID,SSN = self.kwargs['pk'].split("p")
+		print SSN,SONGID
+		return Performs.objects.get(songID=SONGID,ssn=SSN)
+
+class PlacesList(ListView):
+	model = Places
+	context_object_name = 'places'
+	success_url = reverse_lazy('places_list')
+	fields = '__all__'
+
+class PlacesCreate(CreateView):
+	model = Places
+	success_url = reverse_lazy('places_list')
+	fields = '__all__'
+
+class PlacesUpdate(UpdateView):
+	model = Places
+	success_url = reverse_lazy('places_list')
+	fields = '__all__'
+
+class PlacesDelete(DeleteView):
+	model = Places
+	success_url = reverse_lazy('places_list')
+	fields = '__all__'
+
+class Telephone_HomeList(ListView):
+	model = Telephone_Home
+	context_object_name = 'telephonehomes'
+	success_url = reverse_lazy('telephone_homes_list')
+	fields = '__all__'
+
+class Telephone_HomeCreate(CreateView):
+	model = Telephone_Home
+	#context_object_name = 'telephonehomes'
+	success_url = reverse_lazy('telephone_homes_list')
+	fields = '__all__'
+
+class Telephone_HomeUpdate(UpdateView):
+	model = Telephone_Home
+	#context_object_name = 'telephonehomes'
+	success_url = reverse_lazy('telephone_homes_list')
+	fields = '__all__'
+
+class Telephone_HomeDelete(DeleteView):
+	model = Telephone_Home
+	#context_object_name = 'telephonehomes'
+	success_url = reverse_lazy('telephone_homes_list')
+	fields = '__all__'
+
+class LivesList(ListView):
+	model = Lives
+	context_object_name='lives'
+	success_url = reverse_lazy('lives_list')
+	fields = '__all__'
+
+class LivesUpdate(UpdateView):
+	model = Lives
+	#context_object_name='lives'
+	success_url = reverse_lazy('lives_list')
+	fields = '__all__'
+
+class LivesDelete(DeleteView):
+	model = Lives
+	#context_object_name='lives'
+	success_url = reverse_lazy('lives_list')
+	fields = '__all__'
+
+class LivesCreate(CreateView):
+	model = Lives
+	#context_object_name='lives'
+	success_url = reverse_lazy('lives_list')
+	fields = '__all__'

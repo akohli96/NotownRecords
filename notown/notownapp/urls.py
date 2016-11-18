@@ -24,6 +24,20 @@ urlpatterns = [ url(r'^$' , views.index, name='index'),
                 url(r'^songappearsnew/$',SongAppearsCreate.as_view(),name='songappears_new'),
                 url(r'^songappearsedit/(?P<pk>\d+)$',SongAppearsUpdate.as_view(),name='songappears_edit'),
                 url(r'^songappearsdelete/(?P<pk>\d+)$',SongAppearsDelete.as_view(),name='songappears_delete'),
+                #url(r'^songappearsdelete/(?P<pk>\d+)$',SongAppearsDelete.as_view(),name='songappears_delete'),
+                url(r'^performs/$',PerformsList.as_view(),name='performs_list'),
+                url(r'^performsnew/$',PerformsCreate.as_view(),name='performs_new'),
+                url(r'^performsedit/(?P<pk>\d+p\d+)$',PerformsUpdate.as_view(),name='performs_edit'),
+                url(r'^performsdelete/(?P<pk>\d+p\d+)$',PerformsDelete.as_view(),name='performs_delete'),
+                url(r'^places/$',PlacesList.as_view(),name='places_list'),
+                url(r'^placesnew/$',PlacesCreate.as_view(),name='places_new'),
+                url(r'^placesedit/(?P<pk>\w+)$',PlacesUpdate.as_view(),name='places_edit'),
+                url(r'^placesdelete/(?P<pk>\w+)$',PlacesDelete.as_view(),name='places_delete'),
+                url(r'^telephone/$',Telephone_HomeList.as_view(),name='telephone_homes_list'),
+                url(r'^telehpnenew/$',Telephone_HomeCreate.as_view(),name='telephone_homes_new'),
+                url(r'^telephoneedit/(?P<pk>\w+)$',Telephone_HomeUpdate.as_view(),name='telephone_homes_edit'),
+                url(r'^telephonesdelete/(?P<pk>\w+)$',Telephone_HomeDelete.as_view(),name='telephone_homes_delete'),
+
 
                ]
 
