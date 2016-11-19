@@ -1,0 +1,20 @@
+<h1> Lives </h1>
+
+<form  method="GET">
+    <input  id="ssn" type="text" name="ssn"  >
+    <input id = "songID" type="text" name="songID">
+    <input type="submit" value="Submit" />
+</form>
+
+<ul>
+
+  {% for live in lives %}
+    {{live}}
+
+       <a href="{% url "lives_edit" live.urlify %}">Edit</a>
+         <a href="{% url "lives_delete"  live.urlify %}">Delete</a>
+
+  {% endfor %}
+
+</ul>
+    <a href="{% url "lives_new" %}">New Lives</a>

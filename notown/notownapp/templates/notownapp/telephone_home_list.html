@@ -1,0 +1,20 @@
+<h1> Telephnes </h1>
+
+<form  method="GET">
+    <input  id="ssn" type="text" name="ssn"  >
+    <input id = "songID" type="text" name="songID">
+    <input type="submit" value="Submit" />
+</form>
+
+<ul>
+
+  {% for telephone in telephonehomes %}
+    {{telephone}}
+
+       <a href="{% url "telephone_homes_edit" telephone.phone %}">Edit</a>
+         <a href="{% url "telephone_homes_delete" telephone.phone %}">Delete</a>
+
+  {% endfor %}
+
+</ul>
+    <a href="{% url "telephone_homes_new" %}">New Telephone</a>
