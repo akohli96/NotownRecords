@@ -1,3 +1,12 @@
+<form  method="GET">
+    <input  id="songID" type="text" name="songID"  >
+    <input id = "author" type="text" name="author">
+    <input id = "title" type="text" name="title">
+    <input id = "albumident" type="text" name="albumdent">
+    <input id = "performs" type="text" name="performs">
+    <input type="submit" value="Submit" />
+</form>
+
 {% for song in songappears %}
   <li>Name: {{ song }}
   <a href="{% url "songappears_edit" song.songID %}">Edit</a>
