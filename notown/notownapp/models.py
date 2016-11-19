@@ -114,6 +114,7 @@ class SongAppears(models.Model):
     def save(self, *args, **kwargs):
         try:
             self.full_clean()
+            super(SongAppears, self).save(*args, **kwargs)
         except ValidationError as e:
             print e
 
@@ -192,7 +193,9 @@ class Lives(models.Model):
             raise ValidationError(('Phone and address phone need to be the same.'))
     def save(self, *args, **kwargs):
         try:
+            print "TRYING TO SAVE"
             self.full_clean()
+            super(Lives, self).save(*args, **kwargs)
         except ValidationError as e:
             print e
 
