@@ -373,11 +373,22 @@ class LivesUpdate(UpdateView):
 	success_url = reverse_lazy('lives_list')
 	fields = '__all__'
 
+	def get_object(self):
+		print self.kwargs
+		SSN,ADDRESS = self.kwargs['pk'].split("LIVES")
+		print SSN,ADDRESS
+		return Lives.objects.get(ssn=SSN,address=ADDRESS)
+
 class LivesDelete(DeleteView):
 	model = Lives
 	#context_object_name='lives'
 	success_url = reverse_lazy('lives_list')
 	fields = '__all__'
+	def get_object(self):
+		print self.kwargs
+		SSN,ADDRESS = self.kwargs['pk'].split("LIVES")
+		print SSN,ADDRESS
+		return Lives.objects.get(ssn=SSN,address=ADDRESS)
 
 class LivesCreate(CreateView):
 	model = Lives
