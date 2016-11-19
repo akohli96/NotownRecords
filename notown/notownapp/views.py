@@ -8,7 +8,7 @@ from notownapp.forms import *
 import re
 
 def index(request):
-	return HttpResponse("Hello, world. You're at the notown index.")
+	return HttpResponse("WELCOME TO Notown App")
 
 """
 def form_test(request):
