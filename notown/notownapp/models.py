@@ -94,6 +94,9 @@ This has to be searched by customers. Input can be title,author or the Album_Pro
 #SongAppears.objects.filter(albumident=1)
 #SongAppears.objects.filter(albumident__albumident__icontains=1)
 #SongAppears.objects.filter(albumident__title__icontains="AY")
+#SongAppears.objects.filter(author__ssn__icontains=8)
+#SongAppears.objects.filter(performs__ssn__icontains=8)
+
 class SongAppears(models.Model):
     songID = models.IntegerField(primary_key=True)
     author = models.ForeignKey(Musicians,related_name="song_author_musicians")

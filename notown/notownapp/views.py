@@ -93,7 +93,7 @@ class MusiciansList(ListView):
 	context_object_name = 'musicians'
 	#Musicians.objects.filter(ssn__contains=853253156,name__contains="Ayush")
 	def get_queryset(self):
-		print "Queryset"
+		print "Musical Queryset"
 
 		NAME= self.request.GET.get("name")
 		SSN = self.request.GET.get("ssn")
@@ -210,24 +210,34 @@ class InstrumentsList(ListView):
 	model = Instruments
 	context_object_name = 'instruments'
 	#Musicians.objects.filter(ssn__contains=853253156,name__contains="Ayush")
-	"""
+
 	def get_queryset(self):
-		print "Queryset"
+		print "Instrument Queryset"
 
-		NAME= self.request.GET.get("name")
-		SSN = self.request.GET.get("ssn")
-		print NAME,SSN
+		INSTRLD= self.request.GET.get("instrld")
+		DNAME = self.request.GET.get("dname")
+		KEY = self.request.GET.get("key")
+		PLAYS = self.request.GET.get("plays")
+		print INSTRLD,DNAME,KEY,PLAYS
 
-		if SSN is not None and NAME is not None:
-			queryset=Musicians.objects.filter(ssn__icontains=SSN)
+		#Instruments.objects.filter(instrld__icontains="")
+		#Instruments.objects.filter(dname__icontains="")
+		#Instruments.objects.filter(keys__icontains="")
+		#Instruments.objects.filter(instrld__icontains="")
+		#Instruments.objects.filter(plays__ssn__icontains="")
+
+		if INSTRLD is not None and DNAME is not None and KEY is not None and PLAYS is not None:
+			queryset=Instruments.objects.filter(instrld__icontains=INSTRLD)
 			print queryset
-			#print queryset.filter(name__contains=NAME.tolower())
-			queryset = queryset.filter(name__icontains=NAME)
+			queryset = queryset.filter(dname__icontains=DNAME)
 			print queryset
+			queryset = queryset.filter(key__icontains=KEY)
+			print queryset
+			queryset = queryset.filter(plays__ssn__icontains=PLAYS)
 			return queryset
 		else:
-			return Musicians.objects.all()
-		"""
+			return Instruments.objects.all()
+
 
 class InstrumentsCreate(CreateView):
 	model = Instruments
@@ -250,6 +260,35 @@ class SongAppearsList(ListView):
 	success_url = reverse_lazy('songappears_list')
 	fields = '__all__'
 
+	def get_queryset(self):
+		print "SongAppears Queryset"
+
+		SONGID= self.request.GET.get("songID")
+		AUTHOR = self.request.GET.get("author")
+		TITLE = self.request.GET.get("title")
+		ALBUMIDENT = self.request.GET.get("albumident")
+		PERFORMS = self.request.GET.get("performs")
+		#print INSTRLD,DNAME,KEY,PLAYS
+
+		#SongAppears.objects.filter(performs__ssn__icontains=853253156)
+		#SongAppears.objects.filter(albumident=1)
+		#SongAppears.objects.filter(albumident__albumident__icontains=1)
+		#SongAppears.objects.filter(albumident__title__icontains="AY")
+		#SongAppears.objects.filter(author__ssn__icontains=8)
+		#SongAppears.objects.filter(performs__ssn__icontains=8)
+
+		if SONGID is not None and AUTHOR is not None and TITLE is not None and ALBUMIDENT is not None and PERFORMS is not None:
+			queryset=SongAppears.objects.filter(songID__icontains=SONGID)
+			print queryset
+			queryset = queryset.filter(author__ssn__icontains=AUTHOR)
+			print queryset
+			queryset = queryset.objects.filter(albumident__albumident__icontains=ALBUMIDENT)
+			print queryset
+			queryset = queryset.objects.filter(performs__ssn__icontains=PERFORMS)
+			return queryset
+		else:
+			return SongAppears.objects.all()
+
 class SongAppearsUpdate(UpdateView):
 	model = SongAppears
 	success_url = reverse_lazy('songappears_list')
@@ -271,11 +310,35 @@ class PerformsCreate(CreateView):
 	success_url = reverse_lazy('performs_list')
 	fields = '__all__'
 
+	def get_queryset(self):
+		print "Performs Queryset"
+
+		SONGID= self.request.GET.get("songID")
+		SSN = self.request.GET.get("ssn")
+
+		#Performs.objects.all()
+		#Performs.objects.filter(ssn__ssn__icontains="")
+		#Performs.objects.filter(songID__songID__icontains="")
+
+		if SONGID is not None and SSN is not None:
+			queryset=Performs.objects.filter(songID__songID__icontains=SONGID)
+			print queryset
+			queryset = queryset.filter(ssn__ssn__icontains=SSN)
+			print queryset
+			return queryset
+		else:
+			return Performs.objects.all()
+
 class PerformsList(ListView):
 	model = Performs
 	context_object_name = 'performs'
 	success_url = reverse_lazy('performs_list')
 	fields = '__all__'
+
+	#Performs.objects.filter(ssn__ssn__icontains="")
+	#Performs.objects.filter(songID__songID__icontains="")
+
+
 
 class PerformsUpdate(UpdateView):
 	model = Performs
@@ -303,6 +366,19 @@ class PlacesList(ListView):
 	context_object_name = 'places'
 	success_url = reverse_lazy('places_list')
 	fields = '__all__'
+
+	#Places.objects.filter(address__icontains="STRING")
+	def get_queryset(self):
+		print "Places Queryset"
+
+		ADDRESS= self.request.GET.get("address")
+
+		if ADDRESS is not None:
+			queryset=Places.objects.filter(address__icontains=ADDRESS)
+			return queryset
+		else:
+			return Places.objects.all()
+
 
 class PlacesCreate(CreateView):
 	model = Places
@@ -343,6 +419,25 @@ class Telephone_HomeList(ListView):
 	success_url = reverse_lazy('telephone_homes_list')
 	fields = '__all__'
 
+
+	def get_queryset(self):
+		print "Telephone Queryset"
+
+		PHONE= self.request.GET.get("phone")
+		ADDRESS = self.request.GET.get("address")
+		#Telephone_Home.objects.filter(phone__icontains="85")
+		#Telephone_Home.objects.filter(address__address__icontains="85")
+
+		if PHONE is not None and ADDRESS is not None:
+			queryset=Telephone_Home.objects.filter(phone__icontains=PHONE)
+			print queryset
+			queryset = queryset.filter(address__address__icontains=ADDRESS)
+			print queryset
+			return queryset
+		else:
+			return Telephone_Home.objects.all()
+
+
 class Telephone_HomeCreate(CreateView):
 	model = Telephone_Home
 	#context_object_name = 'telephonehomes'
@@ -361,11 +456,36 @@ class Telephone_HomeDelete(DeleteView):
 	success_url = reverse_lazy('telephone_homes_list')
 	fields = '__all__'
 
+
 class LivesList(ListView):
 	model = Lives
 	context_object_name='lives'
 	success_url = reverse_lazy('lives_list')
 	fields = '__all__'
+
+
+	def get_queryset(self):
+		print "Lives Queryset"
+
+		SSN= self.request.GET.get("ssn")
+		PHONE = self.request.GET.get("phone")
+		ADDRESS = self.request.GET.get("address")
+		#Lives.objects.filter(ssn__ssn__icontains=85)
+		#Lives.objects.filter(phone__phone__icontains=85)
+		#Lives.objects.filter(address__address__icontains=85)
+
+		if SSN is not None and PHONE is not None and ADDRESS is not None:
+			print "IN NOT NONE"
+			queryset=Lives.objects.filter(phone__phone__icontains=PHONE)
+			print queryset
+			queryset = queryset.filter(address__address__icontains=ADDRESS)
+			print queryset
+			queryset = queryset.filter(ssn__ssn__icontains=SSN)
+			print queryset
+			return queryset
+		else:
+			return Lives.objects.all()
+
 
 class LivesUpdate(UpdateView):
 	model = Lives
