@@ -4,11 +4,12 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from django.forms import forms
 from notownapp.forms import *
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 import re
 
 def index(request):
-	return HttpResponse("WELCOME TO Notown App")
+	return HttpResponse("Welcome to Notown App")
 
 """
 def form_test(request):
@@ -17,16 +18,18 @@ def form_test(request):
 
 #def search_normal(re)
 """
+#http://franklingu.github.io/programming/2016/08/29/django-class-based-views-and-access-mixins/
 
 
-class Album_ProducerList(ListView):
+class Album_ProducerList(LoginRequiredMixin,ListView):
 	model = Album_Producer
 	context_object_name = 'album_producers'
-
-
+	login_url = '/accounts/login/'
+	#redirect_field_name = '/what/'
+	print "LOGIN"
+	#print user.is_authenticated
 	def get_queryset(self):
 		print "Album Producer Queryset"
-
 
 		ALBUMIDENTIFIER = self.request.GET.get("albumidentifier")
 		COPYRIGHTDATE = self.request.GET.get("copyrightdate")
@@ -63,18 +66,65 @@ class Album_ProducerList(ListView):
 
 
 
-class Album_ProducerCreate(CreateView):
+class Album_ProducerCreate(LoginRequiredMixin,CreateView):
 	model = Album_Producer
 	success_url = "/notownapp/albumproducerslist/"
 	fields = "__all__"
+	login_url = '/accounts/login/'
 
-class Album_ProducerUpdate(UpdateView):
+	def form_valid(self,form):
+		#print form
+		#print form.cleaned_data
+		#print form.cleaned_data['ssn']
+		#print type(form.cleaned_data['ssn'])
+		#print ((re.search('[a-zA-Z]', form.cleaned_data['ssn'])) == None)
+		print "IN FORM VALID"
+		print form
+		print form.cleaned_data
+		if(( (form.cleaned_data['albumident'])) < 0 ):
+			#raise forms.ValidationError("Enter number greater than 0")
+			print "Enter number greater than 0"
+			return HttpResponseRedirect("/notownapp/albumproducerslist/")
+		return super(Album_ProducerCreate, self).form_valid(form)
+
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect("/notownapp/albumproducerslist/")
+
+		return super(Album_ProducerCreate, self).post(request, *args, **kwargs)
+
+class Album_ProducerUpdate(LoginRequiredMixin,UpdateView):
 	model = Album_Producer
 	success_url = reverse_lazy('album_producers_list')
 	#context_object_name = 'musicians'
 	fields = '__all__'
 
-class Album_ProducerDelete(DeleteView):
+	def form_valid(self,form):
+		#print form
+		#print form.cleaned_data
+		#print form.cleaned_data['ssn']
+		#print type(form.cleaned_data['ssn'])
+		#print ((re.search('[a-zA-Z]', form.cleaned_data['ssn'])) == None)
+		print "IN FORM VALID"
+		print form
+		print form.cleaned_data
+		if(( (form.cleaned_data['albumident'])) < 0 ):
+			#raise forms.ValidationError("Enter number greater than 0")
+			print "Enter number greater than 0"
+			return HttpResponseRedirect("/notownapp/albumproducerslist/")
+		return super(Album_ProducerUpdate, self).form_valid(form)
+
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('album_producers_list'))
+
+		return super(Album_ProducerUpdate, self).post(request, *args, **kwargs)
+
+class Album_ProducerDelete(LoginRequiredMixin,DeleteView):
 	model = Album_Producer
 	success_url = reverse_lazy('album_producers_list')
 	#context_object_name = 'musicians'
@@ -88,10 +138,11 @@ class Album_ProducerDelete(DeleteView):
 
 		return super(Album_ProducerDelete, self).post(request, *args, **kwargs)
 
-class MusiciansList(ListView):
+class MusiciansList(LoginRequiredMixin,ListView):
 	model = Musicians
 	context_object_name = 'musicians'
 	#Musicians.objects.filter(ssn__contains=853253156,name__contains="Ayush")
+	login_url = '/accounts/login/'
 	def get_queryset(self):
 		print "Musical Queryset"
 
@@ -111,17 +162,27 @@ class MusiciansList(ListView):
 
 
 
-class MusiciansCreate(CreateView):
+class MusiciansCreate(LoginRequiredMixin,CreateView):
 	model = Musicians
 	success_url = reverse_lazy('musicians_list')
 	#context_object_name = 'musicians'
 	fields = '__all__'
+	login_url = '/accounts/login/'
 
-class MusiciansUpdate(UpdateView):
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('musicians_list'))
+
+		return super(MusiciansCreate, self).post(request, *args, **kwargs)
+
+class MusiciansUpdate(LoginRequiredMixin,UpdateView):
 	model = Musicians
 	success_url = reverse_lazy('musicians_list')
 	#context_object_name = 'musicians'
 	fields = '__all__'
+	login_url = '/accounts/login/'
 
 	def form_valid(self,form):
 		#print form
@@ -135,11 +196,20 @@ class MusiciansUpdate(UpdateView):
 			return HttpResponseRedirect(reverse_lazy('musicians_list'))
 		return super(MusiciansUpdate, self).form_valid(form)
 
-class MusiciansDelete(DeleteView):
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('musicians_list'))
+
+		return super(MusiciansUpdate, self).post(request, *args, **kwargs)
+
+class MusiciansDelete(LoginRequiredMixin,DeleteView):
 	model = Musicians
 	success_url = reverse_lazy('musicians_list')
 	#context_object_name = 'musicians'
 	fields = '__all__'
+	login_url = '/accounts/login/'
 
 	def post(self, request, *args, **kwargs):
 		print request.POST
@@ -149,9 +219,10 @@ class MusiciansDelete(DeleteView):
 
 		return super(MusiciansDelete, self).post(request, *args, **kwargs)
 
-class PlaysList(ListView):
+class PlaysList(LoginRequiredMixin,ListView):
 	model = Plays
 	context_object_name = 'plays'
+	login_url = '/accounts/login/'
 
 	def get_queryset(self):
 		print "Plays Queryset"
@@ -172,27 +243,47 @@ class PlaysList(ListView):
 			return Plays.objects.all()
 
 
-class PlaysCreate(CreateView):
-	model = Plays
-	success_url = reverse_lazy('plays_list')
-	fields = '__all__'
 
-class PlaysUpdate(UpdateView):
+class PlaysCreate(LoginRequiredMixin,CreateView):
 	model = Plays
 	success_url = reverse_lazy('plays_list')
 	fields = '__all__'
+	login_url = '/accounts/login/'
+
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('plays_list'))
+
+		return super(PlaysCreate, self).post(request, *args, **kwargs)
+
+class PlaysUpdate(LoginRequiredMixin,UpdateView):
+	model = Plays
+	success_url = reverse_lazy('plays_list')
+	fields = '__all__'
+	login_url = '/accounts/login/'
 
 	def get_object(self):
 		print self.kwargs
 		SSN,INSTRLD = self.kwargs['pk'].split("P")
 		return Plays.objects.get(ssn=SSN,instrld=INSTRLD)
+
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('plays_list'))
+
+		return super(PlaysUpdate, self).post(request, *args, **kwargs)
 #
 
 
-class PlaysDelete(DeleteView):
+class PlaysDelete(LoginRequiredMixin,DeleteView):
 	model = Plays
 	success_url = reverse_lazy('plays_list')
 	fields = '__all__'
+	login_url = '/accounts/login/'
 	def post(self, request, *args, **kwargs):
 		print request.POST
 		print request.POST["password"]
@@ -206,9 +297,10 @@ class PlaysDelete(DeleteView):
 		SSN,INSTRLD = self.kwargs['pk'].split("P")
 		return Plays.objects.get(ssn=SSN,instrld=INSTRLD)
 
-class InstrumentsList(ListView):
+class InstrumentsList(LoginRequiredMixin,ListView):
 	model = Instruments
 	context_object_name = 'instruments'
+	login_url = '/accounts/login/'
 	#Musicians.objects.filter(ssn__contains=853253156,name__contains="Ayush")
 
 	def get_queryset(self):
@@ -239,20 +331,45 @@ class InstrumentsList(ListView):
 			return Instruments.objects.all()
 
 
-class InstrumentsCreate(CreateView):
+class InstrumentsCreate(LoginRequiredMixin,CreateView):
 	model = Instruments
 	success_url = reverse_lazy('instruments_list')
 	fields = '__all__'
+	login_url = '/accounts/login/'
 
-class InstrumentsUpdate(UpdateView):
-	model = Instruments
-	success_url = reverse_lazy('instruments_list')
-	fields = '__all__'
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('instruments_list'))
 
-class InstrumentsDelete(DeleteView):
+		return super(InstrumentsCreate, self).post(request, *args, **kwargs)
+
+class InstrumentsUpdate(LoginRequiredMixin,UpdateView):
 	model = Instruments
 	success_url = reverse_lazy('instruments_list')
 	fields = '__all__'
+	login_url = '/accounts/login/'
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('instruments_list'))
+
+		return super(InstrumentsUpdate, self).post(request, *args, **kwargs)
+
+class InstrumentsDelete(LoginRequiredMixin,DeleteView):
+	model = Instruments
+	success_url = reverse_lazy('instruments_list')
+	fields = '__all__'
+	login_url = '/accounts/login/'
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('instruments_list'))
+
+		return super(InstrumentsDelete, self).post(request, *args, **kwargs)
 
 class SongAppearsList(ListView):
 	model = SongAppears
@@ -289,26 +406,70 @@ class SongAppearsList(ListView):
 		else:
 			return SongAppears.objects.all()
 
-class SongAppearsUpdate(UpdateView):
+class SongAppearsUpdate(LoginRequiredMixin,UpdateView):
 	model = SongAppears
 	success_url = reverse_lazy('songappears_list')
 	fields = '__all__'
+	login_url = '/accounts/login/'
 
-class SongAppearsDelete(DeleteView):
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('songappears_list'))
+
+		return super(SongAppearsUpdate, self).post(request, *args, **kwargs)
+
+class SongAppearsDelete(LoginRequiredMixin,DeleteView):
 	model = SongAppears
 	success_url = reverse_lazy('songappears_list')
 	fields = '__all__'
+	login_url = '/accounts/login/'
 
-class SongAppearsCreate(CreateView):
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('songappears_list'))
+
+		return super(SongAppearsDelete, self).post(request, *args, **kwargs)
+
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('songappears_list'))
+
+		return super(SongAppearsDelete, self).post(request, *args, **kwargs)
+
+class SongAppearsCreate(LoginRequiredMixin,CreateView):
 	model = SongAppears
 	success_url = reverse_lazy('songappears_list')
 	fields = '__all__'
+	login_url = '/accounts/login/'
+
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('songappears_list'))
+
+		return super(SongAppearsCreate, self).post(request, *args, **kwargs)
 
 
-class PerformsCreate(CreateView):
+class PerformsCreate(LoginRequiredMixin,CreateView):
 	model = Performs
 	success_url = reverse_lazy('performs_list')
 	fields = '__all__'
+	login_url = '/accounts/login/'
+
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('performs_list'))
+
+		return super(PerformsCreate, self).post(request, *args, **kwargs)
 
 	def get_queryset(self):
 		print "Performs Queryset"
@@ -329,31 +490,42 @@ class PerformsCreate(CreateView):
 		else:
 			return Performs.objects.all()
 
-class PerformsList(ListView):
+class PerformsList(LoginRequiredMixin,ListView):
 	model = Performs
 	context_object_name = 'performs'
 	success_url = reverse_lazy('performs_list')
 	fields = '__all__'
+	login_url = '/accounts/login/'
 
 	#Performs.objects.filter(ssn__ssn__icontains="")
 	#Performs.objects.filter(songID__songID__icontains="")
 
 
 
-class PerformsUpdate(UpdateView):
+class PerformsUpdate(LoginRequiredMixin,UpdateView):
 	model = Performs
 	success_url = reverse_lazy('performs_list')
 	fields = '__all__'
+	login_url = '/accounts/login/'
 	def get_object(self):
 		print self.kwargs
 		SONGID,SSN = self.kwargs['pk'].split("p")
 		print SSN,SONGID
 		return Performs.objects.get(songID=SONGID,ssn=SSN)
 
-class PerformsDelete(DeleteView):
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('performs_list'))
+
+		return super(PerformsUpdate, self).post(request, *args, **kwargs)
+
+class PerformsDelete(LoginRequiredMixin,DeleteView):
 	model = Performs
 	success_url = reverse_lazy('performs_list')
 	fields = '__all__'
+	login_url = '/accounts/login/'
 	#return str(self.songID.songID) + "p"  + str(self.ssn.ssn)
 	def get_object(self):
 		print self.kwargs
@@ -361,11 +533,20 @@ class PerformsDelete(DeleteView):
 		print SSN,SONGID
 		return Performs.objects.get(songID=SONGID,ssn=SSN)
 
-class PlacesList(ListView):
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('performs_list'))
+
+		return super(PerformsDelete, self).post(request, *args, **kwargs)
+
+class PlacesList(LoginRequiredMixin,ListView):
 	model = Places
 	context_object_name = 'places'
 	success_url = reverse_lazy('places_list')
 	fields = '__all__'
+	login_url = '/accounts/login/'
 
 	#Places.objects.filter(address__icontains="STRING")
 	def get_queryset(self):
@@ -380,10 +561,11 @@ class PlacesList(ListView):
 			return Places.objects.all()
 
 
-class PlacesCreate(CreateView):
+class PlacesCreate(LoginRequiredMixin,CreateView):
 	model = Places
 	success_url = reverse_lazy('places_list')
 	fields = '__all__'
+	login_url = '/accounts/login/'
 	print "CREATE PLACE"
 	def form_valid(self,form):
 		print form
@@ -391,33 +573,52 @@ class PlacesCreate(CreateView):
 		return super(PlacesCreate, self).form_valid(form)
 
 	def post(self, request, *args, **kwargs):
-		#print request.args
-		print request.POST['address']
-		#print #request.POST["password"]
-		#if request.POST["password"] != "cs430":
-		#	return HttpResponseRedirect(reverse_lazy('plays_list'))
-
-
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('places_list'))
 
 		return super(PlacesCreate, self).post(request, *args, **kwargs)
 
 
 
-class PlacesUpdate(UpdateView):
+	#	return super(PlacesCreate, self).post(request, *args, **kwargs)
+
+
+
+class PlacesUpdate(LoginRequiredMixin,UpdateView):
 	model = Places
 	success_url = reverse_lazy('places_list')
 	fields = '__all__'
+	login_url = '/accounts/login/'
 
-class PlacesDelete(DeleteView):
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('places_list'))
+
+		return super(PlacesUpdate, self).post(request, *args, **kwargs)
+
+class PlacesDelete(LoginRequiredMixin,DeleteView):
 	model = Places
 	success_url = reverse_lazy('places_list')
 	fields = '__all__'
+	login_url = '/accounts/login/'
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('places_list'))
 
-class Telephone_HomeList(ListView):
+		return super(PlacesDelete, self).post(request, *args, **kwargs)
+
+class Telephone_HomeList(LoginRequiredMixin,ListView):
 	model = Telephone_Home
 	context_object_name = 'telephonehomes'
 	success_url = reverse_lazy('telephone_homes_list')
 	fields = '__all__'
+	login_url = '/accounts/login/'
 
 
 	def get_queryset(self):
@@ -438,31 +639,56 @@ class Telephone_HomeList(ListView):
 			return Telephone_Home.objects.all()
 
 
-class Telephone_HomeCreate(CreateView):
+class Telephone_HomeCreate(LoginRequiredMixin,CreateView):
 	model = Telephone_Home
 	#context_object_name = 'telephonehomes'
 	success_url = reverse_lazy('telephone_homes_list')
 	fields = '__all__'
+	login_url = '/accounts/login/'
 
-class Telephone_HomeUpdate(UpdateView):
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('telephone_homes_list'))
+
+		return super(Telephone_HomeCreate, self).post(request, *args, **kwargs)
+
+class Telephone_HomeUpdate(LoginRequiredMixin,UpdateView):
 	model = Telephone_Home
 	#context_object_name = 'telephonehomes'
 	success_url = reverse_lazy('telephone_homes_list')
 	fields = '__all__'
+	login_url = '/accounts/login/'
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('telephone_homes_list'))
 
-class Telephone_HomeDelete(DeleteView):
+		return super(Telephone_HomeUpdate, self).post(request, *args, **kwargs)
+
+class Telephone_HomeDelete(LoginRequiredMixin,DeleteView):
 	model = Telephone_Home
 	#context_object_name = 'telephonehomes'
 	success_url = reverse_lazy('telephone_homes_list')
 	fields = '__all__'
+	login_url = '/accounts/login/'
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('telephone_homes_list'))
+
+		return super(Telephone_HomeDelete, self).post(request, *args, **kwargs)
 
 
-class LivesList(ListView):
+class LivesList(LoginRequiredMixin,ListView):
 	model = Lives
 	context_object_name='lives'
 	success_url = reverse_lazy('lives_list')
 	fields = '__all__'
-
+	login_url = '/accounts/login/'
 
 	def get_queryset(self):
 		print "Lives Queryset"
@@ -487,11 +713,19 @@ class LivesList(ListView):
 			return Lives.objects.all()
 
 
-class LivesUpdate(UpdateView):
+class LivesUpdate(LoginRequiredMixin,UpdateView):
 	model = Lives
 	#context_object_name='lives'
 	success_url = reverse_lazy('lives_list')
 	fields = '__all__'
+	login_url = '/accounts/login/'
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('lives_list'))
+
+		return super(LivesUpdate, self).post(request, *args, **kwargs)
 
 	def get_object(self):
 		print self.kwargs
@@ -499,19 +733,36 @@ class LivesUpdate(UpdateView):
 		print SSN,ADDRESS
 		return Lives.objects.get(ssn=SSN,address=ADDRESS)
 
-class LivesDelete(DeleteView):
+class LivesDelete(LoginRequiredMixin,DeleteView):
 	model = Lives
 	#context_object_name='lives'
 	success_url = reverse_lazy('lives_list')
 	fields = '__all__'
+	login_url = '/accounts/login/'
 	def get_object(self):
 		print self.kwargs
 		SSN,ADDRESS = self.kwargs['pk'].split("LIVES")
 		print SSN,ADDRESS
 		return Lives.objects.get(ssn=SSN,address=ADDRESS)
 
-class LivesCreate(CreateView):
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('lives_list'))
+
+		return super(LivesDelete, self).post(request, *args, **kwargs)
+
+class LivesCreate(LoginRequiredMixin,CreateView):
 	model = Lives
 	#context_object_name='lives'
 	success_url = reverse_lazy('lives_list')
 	fields = '__all__'
+	login_url = '/accounts/login/'
+	def post(self, request, *args, **kwargs):
+		print request.POST
+		print request.POST["password"]
+		if request.POST["password"] != "cs430":
+			return HttpResponseRedirect(reverse_lazy('lives_list'))
+
+		return super(LivesCreate, self).post(request, *args, **kwargs)
