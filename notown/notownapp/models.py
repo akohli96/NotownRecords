@@ -110,7 +110,7 @@ class SongAppears(models.Model):
 
     def clean(self):
         if(self.performs is None):
-            raise ValidationError(('Each song must be performed by atleast one musician.Add to performance'))
+            raise ValidationError(('Each song must be performed by atleast one musician. Add to performance'))
         #if(self.author != self.albumident.ssn):
         #    raise ValidationError(('The song author and album author must be the same musician'))
 
