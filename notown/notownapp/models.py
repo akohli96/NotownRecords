@@ -5,10 +5,10 @@ from django.core.urlresolvers import reverse
 
 class Musicians(models.Model):
     name = models.CharField(max_length=30)
-    ssn = models.CharField(max_length=10, primary_key=True)
+    ssn = models.CharField(max_length=10, primary_key=True,editable=True)
 
     def __str__(self):
-        return str(self.name) + " " + str(self.ssn)
+        return "NAME: " + str(self.name) + " \n " +  "SSN: " + str(self.ssn)
 
     def get_absolute_url(self):
         return reverse('musicians-detail', kwargs={'pk': self.ssn})
@@ -19,6 +19,7 @@ class Musicians(models.Model):
 #Instruments.objects.filter(instrld__icontains="")
 #Instruments.objects.filter(plays__ssn__icontains="")
 #Instruments.objects.filter(plays__instrld__icontains="")
+#Issue here in inserting
 class Instruments(models.Model):
     instrld = models.CharField(max_length=10,primary_key=True)
     dname = models.CharField(max_length=30)
@@ -26,7 +27,7 @@ class Instruments(models.Model):
     plays = models.ManyToManyField(Musicians,through='Plays')
 
     def __str__(self):
-        return str(self.instrld) + " " + str(self.dname) + " " +  str(self.key) + " " + str(self.plays)
+        return "INSTRUMENT ID: " + str(self.instrld) + " " + "INSTRUMENT NAME: " + str(self.dname) + " KEYS: " +  str(self.key) + " " + " PLAYERS: " + str([int(musician.ssn) for musician in self.plays.all() if musician.ssn is not None])
 
     def get_absolute_url(self):
         return reverse('instruments-detail', kwargs={'pk': self.instrld})
@@ -52,7 +53,7 @@ class Plays (models.Model):
         unique_together = ('ssn','instrld')
 
     def __str__(self):
-        return str(self.ssn.ssn) + " " +  str(self.instrld.instrld)
+        return "SSN :" + str(self.ssn.ssn) + " \n " +  "INSTRUMENT ID :" + str(self.instrld.instrld)
 
     def urlify(self):
         return str(self.ssn.ssn) + "P"  + str(self.instrld.instrld)
@@ -74,7 +75,7 @@ class Album_Producer(models.Model):
     title = models.CharField(max_length=30)
 
     def __str__(self):
-        return str(self.albumident) + " " + str(self.ssn) +" " +  str(self.copyright) + " " + str(self.speed) + " " + str(self.title)
+        return "ALBUM IDENTIFIER :" + str(self.albumident) + " \n " + str(self.ssn) +" \n " +  "COPYRIGHT :" + str(self.copyright) + " \n " + "SPEED :" + str(self.speed) + " \n " + "TITLE :" + str(self.title)
 
 
     def get_absolute_url(self):
@@ -97,6 +98,7 @@ This has to be searched by customers. Input can be title,author or the Album_Pro
 #SongAppears.objects.filter(author__ssn__icontains=8)
 #SongAppears.objects.filter(performs__ssn__icontains=8)
 
+#Issue here in inserting
 class SongAppears(models.Model):
     songID = models.IntegerField(primary_key=True)
     author = models.ForeignKey(Musicians,related_name="song_author_musicians")
@@ -105,7 +107,7 @@ class SongAppears(models.Model):
     performs = models.ManyToManyField(Musicians,through="Performs")
 
     def __str__(self):
-        return str(self.songID) + " \n " + str(self.author) + " \n " + str(self.title) + " \n " + str(self.albumident) + " \n " + str(self.performs)
+        return "SONG ID: " + str(self.songID) + " \n " + "ARTIST: " + str(self.author.name) + " \n " + "TITLE: " + str(self.title) + " \n "  + "ALBUM NAME: " +  str(self.albumident.title) + " \n " + "PERFORMERS: " +str([int(performer.ssn)  for performer in self.performs.all() if performer is not None])
 
 
     def clean(self):
@@ -136,7 +138,7 @@ class Performs(models.Model):
         unique_together=('ssn','songID')
 
     def __str__(self):
-        return str(self.ssn) + " " + str(self.songID)
+        return "SSN: " + str(self.ssn.ssn) + " " + "SONG ID: " +str(self.songID.songID)
 
     def urlify(self):
         return str(self.songID.songID) + "p"  + str(self.ssn.ssn)
@@ -149,7 +151,7 @@ class Places(models.Model):
     address = models.CharField(max_length=30,primary_key=True)
 
     def __str__(self):
-        return str(self.address)
+        return "ADDRESS: " + str(self.address)
 
     def get_absolute_url(self):
         print str(self.address)
@@ -163,7 +165,7 @@ class Telephone_Home(models.Model):
     address = models.OneToOneField(Places) #should take care of unique
 
     def __str__(self):
-        return str(self.phone) + " " + str(self.address)
+        return "PHONE: " + str(self.phone) + " " + "ADDRESS: " + str(self.address.address)
 
     def get_absolute_url(self):
         return reverse('telephone_home-detail', kwargs={'pk' : self.phone})
@@ -180,10 +182,10 @@ class Lives(models.Model):
         unique_together=('ssn','address')
 
     def __str__(self):
-        return str(self.ssn) + " " + str(self.phone) + " " + str(self.address)
+        return "SSN: " + str(self.ssn.ssn) + " " + "PHONE: " +str(self.phone.phone) + " " + "ADDRESS: " +str(self.address.address)
 
     def urlify(self):
-        return str(self.ssn.ssn) + "LIVES" + str(self.address.address)
+        return str(self.ssn.ssn) + "L" + str(self.address.address)
 
     def get_absolute_url(self):
         return reverse('lives-detail', kwargs={'pk' : urlify(self)})
