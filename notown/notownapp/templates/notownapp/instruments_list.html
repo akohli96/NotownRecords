@@ -1,22 +1,22 @@
 <h1> Instruments </h1>
 
 <form  method="GET">
-    <input id ="instrld" type="text" name="instrld"  >
-    <input id = "dname" type="text" name="dname">
-    <input id = "key" type="text" name="key">
-    <input id = "plays" type="text" name="plays">
+  <p> Instrument ID <input id ="instrld" type="text" name="instrld"  >   </p>
+  <p> Name <input id = "dname" type="text" name="dname"> </p>
+  <p> Key <input id = "key" type="text" name="key"> </p>
+  <p> Plays   <input id = "plays" type="text" name="plays"> </p>
     <input type="submit" value="Submit" />
 </form>
 
 <ul>
 
   {% for instrument in instruments %}
-    {{instrument}}
+    <ul>{{instrument}}
 
-       <a href="{% url "instruments_edit" instrument.instrld %}">Edit</a> -->
-         <a href="{% url "instruments_delete" instrument.instrld  %}">Delete</a> -->
+       <a href="{% url "instruments_edit" instrument.instrld %}">Edit</a>
+         <a href="{% url "instruments_delete" instrument.instrld  %}">Delete</a>  </ul>
 
   {% endfor %}
 
 </ul>
-    <a href="{% url "instruments_new" %}">New Instrument</a> -->
+    <a href="{% url "instruments_new" %}">New Instrument</a>

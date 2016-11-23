@@ -1,18 +1,18 @@
 <h1> Performs </h1>
 
 <form  method="GET">
-    <input  id="ssn" type="text" name="ssn"  >
-    <input id = "songID" type="text" name="songID">
+  <p> SSN  <input  id="ssn" type="text" name="ssn"  > </p>
+  <p> SongID  <input id = "songID" type="text" name="songID"> </p>
     <input type="submit" value="Submit" />
 </form>
 
 <ul>
 
   {% for perform in performs %}
-    {{perform}}
+      <ul>{{perform}}
+     <a href="{% url "performs_edit" perform.urlify %}">Edit</a>
+       <a href="{% url "performs_delete" perform.urlify  %}">Delete</a></ul>
 
-       <a href="{% url "performs_edit" perform.urlify %}">Edit</a>
-         <a href="{% url "performs_delete" perform.urlify  %}">Delete</a>
 
   {% endfor %}
 

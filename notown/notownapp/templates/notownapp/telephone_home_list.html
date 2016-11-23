@@ -1,18 +1,18 @@
 <h1> Telephones </h1>
 
 <form  method="GET">
-    <input  id="phone" type="text" name="phone"  >
-    <input id = "address" type="text" name="address">
+  <p> Phone  <input  id="phone" type="text" name="phone"  > </p>
+    <p> Address  <input id = "address" type="text" name="address"> </p<
     <input type="submit" value="Submit" />
 </form>
 
 <ul>
 
   {% for telephone in telephonehomes %}
-    {{telephone}}
+    <ul>{{telephone}}
 
        <a href="{% url "telephone_homes_edit" telephone.phone %}">Edit</a>
-         <a href="{% url "telephone_homes_delete" telephone.phone %}">Delete</a>
+         <a href="{% url "telephone_homes_delete" telephone.phone %}">Delete</a></ul>
 
   {% endfor %}
 

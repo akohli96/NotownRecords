@@ -8,10 +8,10 @@
 <ul>
 
   {% for place in places %}
-    {{place}}
+    <ul>{{place}}
 
     <a href="{% url "places_edit" place.address %}">Edit</a>
-    <a href="{% url "places_delete" place.address  %}">Delete</a>
+    <a href="{% url "places_delete" place.address  %}">Delete</a></ul>
   {% endfor %}
 
 </ul>

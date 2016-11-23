@@ -9,10 +9,10 @@
 <ul>
 
   {% for play in plays %}
-    {{play}}
+    <ul>{{play}}
 
     <a href="{% url "plays_edit" play.urlify %}">Edit</a>
-    <a href="{% url "plays_delete" play.urlify  %}">Delete</a>
+    <a href="{% url "plays_delete" play.urlify  %}">Delete</a></ul>
   {% endfor %}
 
 </ul>

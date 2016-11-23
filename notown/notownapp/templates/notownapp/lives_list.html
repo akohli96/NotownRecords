@@ -1,19 +1,19 @@
 <h1> Lives </h1>
 
 <form  method="GET">
-    <input  id="ssn" type="text" name="ssn"  >
-    <input id = "phone" type="text" name="phone">
-    <input id = "address" type="text" name="address">
+  <p> SSN  <input  id="ssn" type="text" name="ssn"  > </p>
+  <p> Phone   <input id = "phone" type="text" name="phone"> </p>
+  <p> Address   <input id = "address" type="text" name="address"> </p>
     <input type="submit" value="Submit" />
 </form>
 
 <ul>
 
   {% for live in lives %}
-    {{live}}
+    <ul>{{live}}
 
        <a href="{% url "lives_edit" live.urlify %}">Edit</a>
-         <a href="{% url "lives_delete"  live.urlify %}">Delete</a>
+         <a href="{% url "lives_delete"  live.urlify %}">Delete</a></ul>
 
   {% endfor %}
 
