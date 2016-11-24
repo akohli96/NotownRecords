@@ -2,9 +2,14 @@
 
 
   <p> Artist Name  <input id = "author" type="text" name="author"> </p>
-    <p> Album Name   <input id = "title" type="text" name="title"> </p>
-        <p> Song Name  <input id = "name" type="text" name="name"> </p>
+  <p> Album Name   <input id = "title" type="text" name="title"> </p>
+  <p> Song Name  <input id = "name" type="text" name="name"> </p>
 
+  {%  if user.is_authenticated %}
+    <p> Song ID <input id = "songid" type="text" name="songid"> </p>
+    <p> Album Identifer <input id="albumident" type="text" name="albumident">
+    <p> Performer <input id="performer" type="text" name="performer">
+    {% endif %}
 
     <input type="submit" value="Submit" />
 </form>
