@@ -121,6 +121,7 @@ USE_TZ = True
 
 
 LOGIN_REDIRECT_URL = '/notownapp/'
+LOGIN_URL = '/notownapp/login/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
