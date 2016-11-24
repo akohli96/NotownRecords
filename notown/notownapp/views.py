@@ -390,6 +390,7 @@ class SongAppearsList(ListView):
 	fields = '__all__'
 
 	def get_queryset(self):
+
 		print "SongAppears Queryset"
 
 		#SONGID= self.request.GET.get("songID")
@@ -399,6 +400,7 @@ class SongAppearsList(ListView):
 		#PERFORMS = self.request.GET.get("performs")
 		#print INSTRLD,DNAME,KEY,PLAYS
 		print AUTHOR,TITLE,NAME
+
 		#SongAppears.objects.filter(performs__ssn__icontains=853253156)
 		#SongAppears.objects.filter(albumident=1)
 		#SongAppears.objects.filter(albumident__albumident__icontains=1)
@@ -416,8 +418,15 @@ class SongAppearsList(ListView):
 			queryset = queryset.filter(title__icontains=NAME)
 			print queryset
 			#queryset = queryset.objects.filter(performs__ssn__icontains=PERFORMS)
-
-			return queryset
+			print str(self.request.user)
+			if str(self.request.user) is  "staff":
+				print "MORE QUERIES"
+				queryset=queryset.filter(songID__icontains=self.request.GET.get("songid"))
+				queryset=queryset.filter(albumident__albumident__icontains=self.request.GET.get("albumident"))
+				queryset=queryset.filter(performs__ssn__icontains=self.request.GET.get("performer"))
+				return queryset
+			else:
+				return queryset
 		else:
 			return SongAppears.objects.all()
 
@@ -464,6 +473,8 @@ class SongAppearsCreate(LoginRequiredMixin,CreateView):
 	login_url = '/notownapp/login/'
 
 	def post(self, request, *args, **kwargs):
+		print "USER"
+		print self.request.user
 		print request.POST
 		print request.POST["password"]
 		if request.POST["password"] != "cs430@SIUC":
