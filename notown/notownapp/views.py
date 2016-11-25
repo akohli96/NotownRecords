@@ -349,7 +349,12 @@ class InstrumentsCreate(LoginRequiredMixin,CreateView):
 	success_url = reverse_lazy('instruments_list')
 	fields = '__all__'
 	login_url = '/notownapp/login/'
-
+	def form_valid(self,form):
+		print "CHECKING REGEX"
+		print form.cleaned_data
+		if(((form.cleaned_data['instrld'] <0 ))):
+			print "Enter positive"
+			return HttpResponseRedirect(reverse_lazy('instruments_list'))
 	def post(self, request, *args, **kwargs):
 		print request.POST
 		print request.POST["password"]
@@ -363,6 +368,12 @@ class InstrumentsUpdate(LoginRequiredMixin,UpdateView):
 	success_url = reverse_lazy('instruments_list')
 	fields = '__all__'
 	login_url = '/notownapp/login/'
+	def form_valid(self,form):
+		print "CHECKING REGEX"
+		print form.cleaned_data
+		if(((form.cleaned_data['instrld'] <0 ))):
+			print "Enter positive"
+			return HttpResponseRedirect(reverse_lazy('instruments_list'))
 	def post(self, request, *args, **kwargs):
 		print request.POST
 		print request.POST["password"]
@@ -394,42 +405,44 @@ class SongAppearsList(ListView):
 
 		print "SongAppears Queryset"
 
-		#SONGID= self.request.GET.get("songID")
+		print str(self.request.user)
+
 		AUTHOR = self.request.GET.get("author")
 		TITLE = self.request.GET.get("title")
 		NAME = self.request.GET.get("name")
-		#PERFORMS = self.request.GET.get("performs")
-		#print INSTRLD,DNAME,KEY,PLAYS
-		print AUTHOR,TITLE,NAME
-
-		#SongAppears.objects.filter(performs__ssn__icontains=853253156)
-		#SongAppears.objects.filter(albumident=1)
-		#SongAppears.objects.filter(albumident__albumident__icontains=1)
-		#SongAppears.objects.filter(albumident__title__icontains="AY")
-		#SongAppears.objects.filter(author__ssn__icontains=8)
-		#SongAppears.objects.filter(performs__ssn__icontains=8)
-
-		if  AUTHOR is not None and TITLE is not None and NAME is not None:
+		queryset = SongAppears.objects.all()
+		#print AUTHOR,TITLE,NAME
+		if TITLE is not None:
+			#print queryset
+			queryset = SongAppears.objects.filter(albumident__title__icontains=TITLE)
+		if NAME is not None:
+			#print queryset
+			queryset = queryset.filter(title__icontains=NAME)
+		if AUTHOR is not None:
+			queryset = queryset.filter(author__name__icontains=AUTHOR)
+		if str(self.request.user) ==  "staff":
 			#queryset=SongAppears.objects.filter(songID__icontains=SONGID)
 			#print queryset
-			queryset = SongAppears.objects.filter(author__name__icontains=AUTHOR)
-			print queryset
-			queryset = queryset.filter(albumident__title__icontains=TITLE)
-			print queryset
-			queryset = queryset.filter(title__icontains=NAME)
-			print queryset
-			#queryset = queryset.objects.filter(performs__ssn__icontains=PERFORMS)
-			print str(self.request.user)
-			if str(self.request.user) is  "staff":
-				print "MORE QUERIES"
-				queryset=queryset.filter(songID__icontains=self.request.GET.get("songid"))
-				queryset=queryset.filter(albumident__albumident__icontains=self.request.GET.get("albumident"))
-				queryset=queryset.filter(performs__ssn__icontains=self.request.GET.get("performer"))
-				return queryset
-			else:
-				return queryset
+
+			#PERFORMS = self.request.GET.get("performs")
+			#print INSTRLD,DNAME,KEY,PLAYS
+			print AUTHOR,TITLE,NAME
+			SONGID= self.request.GET.get("songid")
+			ALBUMIDENT=self.request.GET.get("albumident")
+			PERFORMER=self.request.GET.get("performer")
+			print SONGID,ALBUMIDENT,PERFORMER
+			if ALBUMIDENT is not None:
+				queryset = queryset.filter(albumident__albumident__icontains=ALBUMIDENT)
+			if SONGID is not None:
+				queryset =queryset.filter(songID__icontains=SONGID)
+
+			if PERFORMER is not None:
+				queryset=queryset.filter(performs__ssn__icontains=PERFORMER)
+
+
+			return queryset
 		else:
-			return SongAppears.objects.all()
+			return queryset
 
 class SongAppearsUpdate(LoginRequiredMixin,UpdateView):
 	model = SongAppears
@@ -438,11 +451,16 @@ class SongAppearsUpdate(LoginRequiredMixin,UpdateView):
 	login_url = '/notownapp/login/'
 
 	def form_valid(self,form):
+		print "CHECKING REGEX"
+		print form.cleaned_data
+		if(((form.cleaned_data['songID'] <0 ))):
+			print "Enter positive"
+			return HttpResponseRedirect(reverse_lazy('songappears_list'))
 		print "FORM VALID"
 		#print self
 		self.object = form.save(commit=False)
 
-		print form.cleaned_data
+		#print form.cleaned_data
 		Performs.objects.filter(songID=self.object).delete()
 		for performer in form.cleaned_data['performs']:
 			print performer
@@ -492,6 +510,10 @@ class SongAppearsCreate(LoginRequiredMixin,CreateView):
 		print "FORM VALID"
 		#print self
 		self.object = form.save(commit=False)
+
+		if(((form.cleaned_data['songID'] <0 ))):
+			print "Enter positive"
+			return HttpResponseRedirect(reverse_lazy('songappears_list'))
 
 		print form.cleaned_data
 		for performer in form.cleaned_data['performs']:
