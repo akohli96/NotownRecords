@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.forms import forms
 from notownapp.forms import *
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import ModelFormMixin
 
 import re
 
@@ -436,6 +437,27 @@ class SongAppearsUpdate(LoginRequiredMixin,UpdateView):
 	fields = '__all__'
 	login_url = '/notownapp/login/'
 
+	def form_valid(self,form):
+		print "FORM VALID"
+		#print self
+		self.object = form.save(commit=False)
+
+		print form.cleaned_data
+		Performs.objects.filter(songID=self.object).delete()
+		for performer in form.cleaned_data['performs']:
+			print performer
+			print type(performer)
+			print "\n\n\n\n"
+			print "OBJECT"
+			print self.object
+			print type(self.object)
+			performance = Performs()
+			performance.songID = self.object
+			performance.ssn = performer
+			self.object.save() #THIS IS WORKING NOW
+			performance.save()
+			#form.save_m2m()
+		return super(ModelFormMixin,self).form_valid(form)
 	def post(self, request, *args, **kwargs):
 		print request.POST
 		print request.POST["password"]
@@ -450,13 +472,7 @@ class SongAppearsDelete(LoginRequiredMixin,DeleteView):
 	fields = '__all__'
 	login_url = '/notownapp/login/'
 
-	def post(self, request, *args, **kwargs):
-		print request.POST
-		print request.POST["password"]
-		if request.POST["password"] != "cs430@SIUC":
-			return HttpResponseRedirect(reverse_lazy('songappears_list'))
 
-		return super(SongAppearsDelete, self).post(request, *args, **kwargs)
 
 	def post(self, request, *args, **kwargs):
 		print request.POST
@@ -472,6 +488,27 @@ class SongAppearsCreate(LoginRequiredMixin,CreateView):
 	fields = '__all__'
 	login_url = '/notownapp/login/'
 
+	def form_valid(self,form):
+		print "FORM VALID"
+		#print self
+		self.object = form.save(commit=False)
+
+		print form.cleaned_data
+		for performer in form.cleaned_data['performs']:
+			print performer
+			print type(performer)
+			print "\n\n\n\n"
+			print "OBJECT"
+			print self.object
+			print type(self.object)
+			performance = Performs()
+			performance.songID = self.object
+			performance.ssn = performer
+			self.object.save() #THIS IS WORKING NOW
+			performance.save()
+			#form.save_m2m()
+
+		return super(ModelFormMixin,self).form_valid(form)
 	def post(self, request, *args, **kwargs):
 		print "USER"
 		print self.request.user
