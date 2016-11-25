@@ -410,15 +410,18 @@ class SongAppearsList(ListView):
 		AUTHOR = self.request.GET.get("author")
 		TITLE = self.request.GET.get("title")
 		NAME = self.request.GET.get("name")
-		queryset = SongAppears.objects.all()
-		#print AUTHOR,TITLE,NAME
-		if TITLE is not None:
+		queryset = SongAppears.objects.all(	)
+		print AUTHOR,TITLE,NAME
+		print AUTHOR == None
+		print TITLE == None
+		print NAME == None
+		if TITLE != None:
 			#print queryset
 			queryset = SongAppears.objects.filter(albumident__title__icontains=TITLE)
-		if NAME is not None:
+		if NAME != None:
 			#print queryset
 			queryset = queryset.filter(title__icontains=NAME)
-		if AUTHOR is not None:
+		if AUTHOR != None:
 			queryset = queryset.filter(author__name__icontains=AUTHOR)
 		if str(self.request.user) ==  "staff":
 			#queryset=SongAppears.objects.filter(songID__icontains=SONGID)
@@ -431,17 +434,18 @@ class SongAppearsList(ListView):
 			ALBUMIDENT=self.request.GET.get("albumident")
 			PERFORMER=self.request.GET.get("performer")
 			print SONGID,ALBUMIDENT,PERFORMER
-			if ALBUMIDENT is not None:
+			if ALBUMIDENT!= None:
 				queryset = queryset.filter(albumident__albumident__icontains=ALBUMIDENT)
-			if SONGID is not None:
+			if SONGID != None:
 				queryset =queryset.filter(songID__icontains=SONGID)
 
-			if PERFORMER is not None:
+			if PERFORMER != None:
 				queryset=queryset.filter(performs__ssn__icontains=PERFORMER)
 
-
+			print queryset
 			return queryset
 		else:
+			print queryset
 			return queryset
 
 class SongAppearsUpdate(LoginRequiredMixin,UpdateView):
