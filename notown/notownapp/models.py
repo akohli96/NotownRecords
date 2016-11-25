@@ -21,7 +21,7 @@ class Musicians(models.Model):
 #Instruments.objects.filter(plays__instrld__icontains="")
 #Issue here in inserting
 class Instruments(models.Model):
-    instrld = models.CharField(max_length=10,primary_key=True)
+    instrld = models.IntegerField(max_length=10,primary_key=True)
     dname = models.CharField(max_length=30)
     key = models.CharField(max_length=5)
     plays = models.ManyToManyField(Musicians,through='Plays')
@@ -107,7 +107,7 @@ class SongAppears(models.Model):
     performs = models.ManyToManyField(Musicians,through="Performs")
 
     def __str__(self):
-        return "SONG ID: " + str(self.songID) + " \n " + "ARTIST: " + str(self.author.name) + " \n " + "TITLE: " + str(self.title) + " \n "  + "ALBUM NAME: " +  str(self.albumident.title) + " \n " + "PERFORMERS: " +str([int(performer.ssn)  for performer in self.performs.all() if performer is not None])
+        return "SONG ID: " + str(self.songID) + " \n " + "ARTIST: " + str(self.author.name) + " \n " + "TITLE: " + str(self.title) + " \n "  + "ALBUM NAME: " +  str(self.albumident.title) + " ALBUM IDENT: " + str(self.albumident.albumident) + "\n" + "PERFORMERS: " +str([int(performer.ssn)  for performer in self.performs.all() if performer is not None])
 
 
     def clean(self):
