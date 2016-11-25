@@ -316,6 +316,7 @@ class InstrumentsList(LoginRequiredMixin,ListView):
 	login_url = '/notownapp/login/'
 	#Musicians.objects.filter(ssn__contains=853253156,name__contains="Ayush")
 
+
 	def get_queryset(self):
 		print "Instrument Queryset"
 
@@ -344,17 +345,37 @@ class InstrumentsList(LoginRequiredMixin,ListView):
 			return Instruments.objects.all()
 
 
+
 class InstrumentsCreate(LoginRequiredMixin,CreateView):
 	model = Instruments
 	success_url = reverse_lazy('instruments_list')
 	fields = '__all__'
 	login_url = '/notownapp/login/'
 	def form_valid(self,form):
-		print "CHECKING REGEX"
-		print form.cleaned_data
+		print "INSTRUMENT FORM VALID"
+		#print self
+		self.object = form.save(commit=False)
+
 		if(((form.cleaned_data['instrld'] <0 ))):
 			print "Enter positive"
 			return HttpResponseRedirect(reverse_lazy('instruments_list'))
+
+		print form.cleaned_data
+		for performer in form.cleaned_data['plays']:
+			print performer
+			print type(performer)
+			print "\n\n\n\n"
+			print "OBJECT"
+			print self.object
+			print type(self.object)
+			player = Plays()
+			player.ssn = performer
+			player.instrld = self.object
+			self.object.save() #THIS IS WORKING NOW
+			player.save()
+			#form.save_m2m()
+
+		return super(ModelFormMixin,self).form_valid(form)
 	def post(self, request, *args, **kwargs):
 		print request.POST
 		print request.POST["password"]
@@ -368,12 +389,31 @@ class InstrumentsUpdate(LoginRequiredMixin,UpdateView):
 	success_url = reverse_lazy('instruments_list')
 	fields = '__all__'
 	login_url = '/notownapp/login/'
+
 	def form_valid(self,form):
-		print "CHECKING REGEX"
-		print form.cleaned_data
+		print "INSTRUMENT FORM VALID"
+		#print self
+		self.object = form.save(commit=False)
+		Plays.objects.filter(instrld=self.object).delete()
 		if(((form.cleaned_data['instrld'] <0 ))):
 			print "Enter positive"
 			return HttpResponseRedirect(reverse_lazy('instruments_list'))
+
+		print form.cleaned_data
+		for performer in form.cleaned_data['plays']:
+			print performer
+			print type(performer)
+			print "\n\n\n\n"
+			print "OBJECT"
+			print self.object
+			print type(self.object)
+			player = Plays()
+			player.ssn = performer
+			player.instrld = self.object
+			self.object.save() #THIS IS WORKING NOW
+			player.save()
+
+		return super(ModelFormMixin,self).form_valid(form)
 	def post(self, request, *args, **kwargs):
 		print request.POST
 		print request.POST["password"]
