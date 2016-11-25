@@ -79,6 +79,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'notown',
+    'OPTIONS':{
+        'init_command' : "SET foreign_key_checks = 0;",
+    },
+    #'STORAGE_ENGINE': 'MYISAM / INNODB / ETC',
 	'USER': 'notownuser',
 	'PASSWORD': 'notown',
 	'HOST': 'localhost',
