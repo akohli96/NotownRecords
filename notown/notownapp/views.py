@@ -788,7 +788,7 @@ class Telephone_HomeCreate(LoginRequiredMixin,CreateView):
 		#print type(form.cleaned_data['ssn'])
 		#print ((re.search('[a-zA-Z]', form.cleaned_data['ssn'])) == None)
 
-		if((str((re.search('[a-zA-Z]', form.cleaned_data['phone']))) != None)):
+		if((((re.search('[a-zA-Z]', str(form.cleaned_data['phone'])))) != None)):
 			print "Enter numbers"
 			return HttpResponseRedirect(reverse_lazy('telephone_homes_list'))
 		return super(Telephone_HomeCreate, self).form_valid(form)
@@ -801,6 +801,15 @@ class Telephone_HomeUpdate(LoginRequiredMixin,UpdateView):
 	def post(self, request, *args, **kwargs):
 		print request.POST
 		print request.POST["password"]
+		print request.POST["address"]
+		phoneobject = Telephone_Home.objects.get(address=request.POST["address"])
+		phone= phoneobject.phone
+		address = phoneobject.address
+		print phoneobject
+		phoneobject.delete()
+		p=Telephone_Home(phone=request.POST["phone"],address=address)
+		print p
+		p.save()
 		if request.POST["password"] != "cs430@SIUC":
 			return HttpResponseRedirect(reverse_lazy('telephone_homes_list'))
 
@@ -808,12 +817,14 @@ class Telephone_HomeUpdate(LoginRequiredMixin,UpdateView):
 
 	def form_valid(self,form):
 		#print form
-		#print form.cleaned_data
+		print form.cleaned_data
 		#print form.cleaned_data['ssn']
 		#print type(form.cleaned_data['ssn'])
 		#print ((re.search('[a-zA-Z]', form.cleaned_data['ssn'])) == None)
-
-		if((str((re.search('[a-zA-Z]', form.cleaned_data['phone']))) != None)):
+		print "PHONE"
+		print Telephone_Home.objects.get(pk=form.cleaned_data['phone'])
+		print "AFTER"
+		if((((re.search('[a-zA-Z]', str(form.cleaned_data['phone'])))) != None)):
 			print "Enter numbers"
 			return HttpResponseRedirect(reverse_lazy('telephone_homes_list'))
 		return super(Telephone_HomeUpdate, self).form_valid(form)
