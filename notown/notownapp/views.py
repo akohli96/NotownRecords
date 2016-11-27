@@ -781,6 +781,17 @@ class Telephone_HomeCreate(LoginRequiredMixin,CreateView):
 
 		return super(Telephone_HomeCreate, self).post(request, *args, **kwargs)
 
+	def form_valid(self,form):
+		#print form
+		#print form.cleaned_data
+		#print form.cleaned_data['ssn']
+		#print type(form.cleaned_data['ssn'])
+		#print ((re.search('[a-zA-Z]', form.cleaned_data['ssn'])) == None)
+
+		if((str((re.search('[a-zA-Z]', form.cleaned_data['phone']))) != None)):
+			print "Enter numbers"
+			return HttpResponseRedirect(reverse_lazy('telephone_homes_list'))
+		return super(Telephone_HomeCreate, self).form_valid(form)
 class Telephone_HomeUpdate(LoginRequiredMixin,UpdateView):
 	model = Telephone_Home
 	#context_object_name = 'telephonehomes'
@@ -794,6 +805,18 @@ class Telephone_HomeUpdate(LoginRequiredMixin,UpdateView):
 			return HttpResponseRedirect(reverse_lazy('telephone_homes_list'))
 
 		return super(Telephone_HomeUpdate, self).post(request, *args, **kwargs)
+
+	def form_valid(self,form):
+		#print form
+		#print form.cleaned_data
+		#print form.cleaned_data['ssn']
+		#print type(form.cleaned_data['ssn'])
+		#print ((re.search('[a-zA-Z]', form.cleaned_data['ssn'])) == None)
+
+		if((str((re.search('[a-zA-Z]', form.cleaned_data['phone']))) != None)):
+			print "Enter numbers"
+			return HttpResponseRedirect(reverse_lazy('telephone_homes_list'))
+		return super(Telephone_HomeUpdate, self).form_valid(form)
 
 class Telephone_HomeDelete(LoginRequiredMixin,DeleteView):
 	model = Telephone_Home
