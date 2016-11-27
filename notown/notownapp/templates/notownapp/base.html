@@ -14,11 +14,14 @@
 
     {# Display django.contrib.messages as Bootstrap alerts #}
     {% bootstrap_messages %}
+		{% load staticfiles %}
+		<link rel="stylesheet" href="{% static 'css/notownapp.css' %}">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>NOTOWN </title>
+		<title> NOTOWN </title>
 	</head>
 	<body>
+
 		{% include 'notownapp/navbar.html' %}
 
 			{% block content %}{% endblock %}
