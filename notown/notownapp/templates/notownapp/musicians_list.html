@@ -1,3 +1,6 @@
+{% extends 'notownapp/base.html' %}
+{% load bootstrap3 %}
+{% block content %}
 <h1> Musicians </h1>
 
 
@@ -21,3 +24,5 @@
 
 </ul>
 <a href="{% url "musicians_new" %}">New Musician</a>
+
+  {% endblock %}

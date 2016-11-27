@@ -1,3 +1,6 @@
+{% extends 'notownapp/base.html' %}
+{% load bootstrap3 %}
+{% block content %}
 <h1> Lives </h1>
 
 <form  method="GET">
@@ -19,3 +22,6 @@
 
 </ul>
     <a href="{% url "lives_new" %}">New Lives</a>
+
+
+  {% endblock %}

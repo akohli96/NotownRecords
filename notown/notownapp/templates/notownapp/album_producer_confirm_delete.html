@@ -1,3 +1,6 @@
+{% extends 'notownapp/base.html' %}
+{% load bootstrap3 %}
+{% block content %}
 <form method="post">{% csrf_token %}
  Are you sure you want to delete ?
  <p>{{object}}</p>
@@ -5,3 +8,5 @@
     <input type="password" name="password"  />
 
 </form>
+
+{% endblock %}
