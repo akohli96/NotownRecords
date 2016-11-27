@@ -113,8 +113,8 @@ class SongAppears(models.Model):
     def clean(self):
         if(self.performs is None):
             raise ValidationError(('Each song must be performed by atleast one musician. Add to performance'))
-        #if(self.author != self.albumident.ssn):
-        #    raise ValidationError(('The song author and album author must be the same musician'))
+    #    if(self.author != self.albumident.ssn):
+    #        raise ValidationError(('The song author and album author must be the same musician'))
 
     def save(self, *args, **kwargs):
         try:
@@ -161,7 +161,7 @@ class Places(models.Model):
 #Telephone_Home.objects.filter(phone__icontains="85")
 #Telephone_Home.objects.filter(address__address__icontains="85")
 class Telephone_Home(models.Model):
-    phone = models.CharField(max_length=11,primary_key=True)
+    phone = models.IntegerField(max_length=11,primary_key=True)
     address = models.OneToOneField(Places) #should take care of unique
 
     def __str__(self):
