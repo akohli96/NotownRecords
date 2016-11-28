@@ -1,1 +1,1 @@
-web: gunicorn notownapp:notownapp
+web: gunicorn notown.wsgi
