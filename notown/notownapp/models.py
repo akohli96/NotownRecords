@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 
 class Musicians(models.Model):
     name = models.CharField(max_length=30)
-    ssn = models.CharField(max_length=10, primary_key=True,editable=True)
+    ssn = models.CharField(max_length=10, primary_key=True)
 
     def __str__(self):
         return "NAME: " + str(self.name) + " \n " +  "SSN: " + str(self.ssn)
@@ -21,7 +21,7 @@ class Musicians(models.Model):
 #Instruments.objects.filter(plays__instrld__icontains="")
 #Issue here in inserting
 class Instruments(models.Model):
-    instrld = models.IntegerField(max_length=10,primary_key=True,editable=True)
+    instrld = models.IntegerField(max_length=10,primary_key=True)
     dname = models.CharField(max_length=30)
     key = models.CharField(max_length=5)
     plays = models.ManyToManyField(Musicians,through='Plays')
@@ -70,7 +70,7 @@ class Plays (models.Model):
 #queryset = queryset.filter(speed__icontains=SPEED)
 #queryset = queryset.filter(ssn__ssn__icontains=SSN)
 class Album_Producer(models.Model):
-    albumident = models.IntegerField(primary_key=True,editable=True,default=-1)
+    albumident = models.IntegerField(primary_key=True,default=-1)
     ssn = models.ForeignKey(Musicians)
     copyright = models.DateField()
     speed = models.IntegerField()
@@ -102,7 +102,7 @@ This has to be searched by customers. Input can be title,author or the Album_Pro
 
 #Issue here in inserting
 class SongAppears(models.Model):
-    songID = models.IntegerField(primary_key=True,editable=True)
+    songID = models.IntegerField(primary_key=True)
     author = models.ForeignKey(Musicians,related_name="song_author_musicians")
     title = models.CharField(max_length=30)
     albumident = models.ForeignKey(Album_Producer)
@@ -150,7 +150,7 @@ class Performs(models.Model):
 
 #Places.objects.filter(address__icontains="STRING")
 class Places(models.Model):
-    address = models.CharField(max_length=30,primary_key=True,editable=True)
+    address = models.CharField(max_length=30,primary_key=True)
 
     def __str__(self):
         return "ADDRESS: " + str(self.address)
@@ -163,12 +163,12 @@ class Places(models.Model):
 #Telephone_Home.objects.filter(phone__icontains="85")
 #Telephone_Home.objects.filter(address__address__icontains="85")
 class Telephone_Home(models.Model):
-    phone = models.BigIntegerField(max_length=11,primary_key=True,editable=True)
+    phone = models.CharField(max_length=11,primary_key=True)
     address = models.OneToOneField(Places) #should take care of unique
     def clean(self):
         if (len(str(self.phone))!= 10):
             raise ValidationError(('Need 10 digits'))
-        if(self.phone<0):
+        if(int(self.phone)<0):
             raise ValidationError("Enter valid phone")
 
     def __str__(self):
