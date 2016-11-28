@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
@@ -10,7 +10,7 @@ from django.views.generic.edit import ModelFormMixin
 import re
 
 def index(request):
-	return HttpResponse("Welcome to Notown App")
+	return render_to_response('notownapp/index.html')
 
 """
 def form_test(request):
@@ -802,14 +802,16 @@ class Telephone_HomeUpdate(LoginRequiredMixin,UpdateView):
 		print request.POST
 		print request.POST["password"]
 		print request.POST["address"]
-		phoneobject = Telephone_Home.objects.get(address=request.POST["address"])
-		phone= phoneobject.phone
-		address = phoneobject.address
-		print phoneobject
-		phoneobject.delete()
-		p=Telephone_Home(phone=request.POST["phone"],address=address)
-		print p
-		p.save()
+
+		#phoneobject = Telephone_Home.objects.get(address=request.POST["address"])
+		#phone= phoneobject.phone
+		#address = phoneobject.address
+		#print phoneobject
+		#phoneobject.delete()
+		#p=Telephone_Home(phone=request.POST["phone"],address=address)
+		#print p
+		#p.save()
+
 		if request.POST["password"] != "cs430@SIUC":
 			return HttpResponseRedirect(reverse_lazy('telephone_homes_list'))
 
