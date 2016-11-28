@@ -18,8 +18,8 @@ if (self.address != self.phone.address):
 
 if (len(str(self.phone))!= 10):
             raise ValidationError(('Need 10 digits'))
-        if(int(self.phone)<0):
-            raise ValidationError("Enter valid phone")
+if(int(self.phone)<0):
+	    raise ValidationError("Enter valid phone")
 ```
 
 3. Within views, there are checks in frontend to ensure 'valid data' gets passed to backend like
@@ -58,9 +58,9 @@ sudo pip install virtualenv
 
 
 
-git clone [https://github.com/akohli96/DatabaseProject](https://github.com/akohli96/DatabaseProject/)
+git clone https://github.com/akohli96/DatabaseProject
 
-cd DatabaseProject
+cd notown		
 
 virtualenv myenv
 
