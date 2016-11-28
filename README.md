@@ -38,10 +38,25 @@ Basically, user keeps getting redirected to appropriate page
 
 2. Python Server setup
 ```bash
+sudo apt-get update
+sudo apt-get install python-pip python-dev mysql-server libmysqlclient-dev
+sudo mysql_install_db
+sudo mysql_secure_installation
+mysql -u root -p
+```
+```sql
+CREATE DATABASE notown CHARACTER SET UTF8;
+CREATE USER notownuser@localhost IDENTIFIED BY 'notown';
+GRANT ALL PRIVILEGES ON notown.* TO notownuser@localhost;
+FLUSH PRIVILEGES;
+EXIT;
+```
+```bash
+sudo pip install virtualenv
 
 
 
-git clone https://github.com/akohli96/DatabaseProject
+git clone [https://github.com/akohli96/DatabaseProject](https://github.com/akohli96/DatabaseProject/)
 
 cd DatabaseProject
 
