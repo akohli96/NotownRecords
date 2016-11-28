@@ -36,7 +36,7 @@ Basically, user keeps getting redirected to appropriate page
 ###Running
 1.Setup MySQL Backend
 
-2. Python Server setup
+
 ```bash
 sudo apt-get update
 sudo apt-get install python-pip python-dev mysql-server libmysqlclient-dev
@@ -51,6 +51,8 @@ GRANT ALL PRIVILEGES ON notown.* TO notownuser@localhost;
 FLUSH PRIVILEGES;
 EXIT;
 ```
+
+2. Python Server setup
 ```bash
 sudo pip install virtualenv
 
