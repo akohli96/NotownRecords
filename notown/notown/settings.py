@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
-    'notownapp.apps.NotownappConfig',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -40,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap3',
     'jquery',
-    #'notown.Notownapp'
+    'notownapp',
 ]
 BOOTSTRAP3 = {
 
@@ -139,9 +138,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'notown',
-    #'OPTIONS':{
-#        'init_command' : "SET foreign_key_checks = 0;",
-#    },
+    'OPTIONS':{
+        'init_command' : "SET foreign_key_checks = 0;",
+    },
     #'STORAGE_ENGINE': 'MYISAM / INNODB / ETC',
 	'USER': 'notownuser',
 	'PASSWORD': 'notown',
