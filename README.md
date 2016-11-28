@@ -30,9 +30,9 @@ if(( (form.cleaned_data['albumident'])) < 0 ):
 if(((re.search('[a-zA-Z]', form.cleaned_data['ssn'])) != None)):
 	return HttpResponseRedirect()
 
-Basically, user keeps getting redirected to appropriate page
-```
 
+```
+Basically, user keeps getting redirected to appropriate page
 ###Running
 1.Setup MySQL Backend
 
