@@ -6,6 +6,7 @@ from django.forms import forms
 from notownapp.forms import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import ModelFormMixin
+from django.contrib.admin.widgets import AdminDateWidget
 
 import re
 
@@ -79,6 +80,10 @@ class Album_ProducerCreate(LoginRequiredMixin,CreateView):
 		#print form.cleaned_data['ssn']
 		#print type(form.cleaned_data['ssn'])
 		#print ((re.search('[a-zA-Z]', form.cleaned_data['ssn'])) == None)
+		#form2 = super(Album_ProducerCreate, self).get_form(form_class)
+		#self.fields['copyrightdate'].widget =widgets.AdminDateWidget()
+        #form2.fields['copyrightdate'].widget.attrs.update({'class': 'datepicker'})
+        #return form
 		print "IN FORM VALID"
 		print form
 		print form.cleaned_data
