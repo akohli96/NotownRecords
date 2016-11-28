@@ -58,9 +58,9 @@ sudo pip install virtualenv
 
 
 
-git clone [https://github.com/akohli96/DatabaseProject](https://github.com/akohli96/DatabaseProject/)
+git clone https://github.com/akohli96/DatabaseProject
 
-cd DatabaseProject
+cd notown		
 
 virtualenv myenv
 
