@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+
+<html>
+	<head>
+    {# Load the tag library #}
+    {% load bootstrap3 %}
+    {% load static %}
+    {# Load CSS and JavaScript #}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {# Display django.contrib.messages as Bootstrap alerts #}
+    {% bootstrap_messages %}
+		{% load staticfiles %}
+
+ <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title> NOTOWN </title>
+	</head>
+<body>
+{% include 'notownapp/navbar.html' %}
+<h2> Welcome to Notownapp</h2>
+<h3> Customers please use Song Appears in the menu for searching </h3>
+<h3> Staff use any of the tables </h3>
+</body>
+</html>
