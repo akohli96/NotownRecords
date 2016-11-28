@@ -194,8 +194,7 @@ LOGIN_URL = '/notownapp/login/'
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-
-
+urlparse.uses_netloc.append('mysql')
 try:
 
     # Check to make sure DATABASES is set in settings.py file.
@@ -220,7 +219,7 @@ try:
         })
 
 # Register database schemes in URLs.
-	urlparse.uses_netloc.append('mysql')
+
         if url.scheme == 'mysql':
             DATABASES['default']['ENGINE'] = 'django.db.backends.mysql'
 except Exception:
