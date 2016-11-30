@@ -137,6 +137,16 @@ WSGI_APPLICATION = 'notown.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
+if 'SQLITE' in os.environ:
+    print "FOUND SQLITE"
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+
 
 DATABASES = {
     'default': {
@@ -196,7 +206,7 @@ LOGIN_URL = '/notownapp/login/'
 STATIC_URL = '/static/'
 urlparse.uses_netloc.append('mysql')
 try:
-
+	#print "TRYING TO CONNECT TO DATABASE"
     # Check to make sure DATABASES is set in settings.py file.
     # If not default to {}
 
@@ -204,6 +214,7 @@ try:
         DATABASES = {}
 
     if 'DATABASE_URL' in os.environ:
+	print "FOUND DATABASE_URL"
         url = urlparse.urlparse(os.environ['DATABASE_URL'])
 
         # Ensure default database exists.
