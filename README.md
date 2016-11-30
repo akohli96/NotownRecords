@@ -61,7 +61,7 @@ sudo pip install virtualenv
 
 git clone https://github.com/akohli96/DatabaseProject
 
-cd notown		
+		
 
 virtualenv myenv
 
@@ -69,9 +69,9 @@ source env/bin/activate
 
 pip install -r requirements
 
-cd notown
 
-python manage.py runserver
+
+gunicorn notown.wsgi
 ```
 
 ###HEROKU APP w\SQLITE
