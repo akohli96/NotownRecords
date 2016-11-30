@@ -18,6 +18,8 @@ import urlparse
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+print "IN SETTINGS"
+print BASE_DIR
 
 
 # Quick-start development settings - unsuitable for production
@@ -142,6 +144,8 @@ WSGI_APPLICATION = 'notown.wsgi.application'
 
 if 'SQLITE' not in os.environ:
     print "USE MYSQL"
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -167,7 +171,22 @@ def changetosql():
     print "DONE"
 if 'SQLITE' in os.environ:
     print "FOUND SQLITE"
-    changetosql()
+    print 'SQLITE' in os.environ
+    #changetosql()
+    print DATABASES['default']
+    DATABASES['default'].update({
+
+                        'ENGINE': 'django.db.backends.sqlite3',
+                        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+
+
+
+        })
+    DATABASES['default'].pop('PORT')
+    DATABASES['default'].pop('USER')
+    DATABASES['default'].pop('PASSWORD')
+    DATABASES['default'].pop('OPTIONS')
+    print DATABASES['default']
 
 
 # Password validation
