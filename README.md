@@ -1,4 +1,4 @@
-# DatabaseProject
+# Django CRUD Application
 
 
 #Technology Stack
@@ -58,6 +58,7 @@ sudo pip install virtualenv
 
 
 
+
 git clone https://github.com/akohli96/DatabaseProject
 
 cd notown		
@@ -73,4 +74,6 @@ cd notown
 python manage.py runserver
 ```
 
+###HEROKU APP w\SQLITE
 
+[Heroku app](https://notownapp.herokuapp.com/notownapp/)
