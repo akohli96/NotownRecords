@@ -137,17 +137,11 @@ WSGI_APPLICATION = 'notown.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-if 'SQLITE' in os.environ:
-    print "FOUND SQLITE"
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 
 
+if 'SQLITE' not in os.environ:
+    print "USE MYSQL"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -162,6 +156,18 @@ DATABASES = {
 	'PORT': '',
     }
 }
+def changetosql():
+    print "CHANGE TO SQLLITE"
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+    print "DONE"
+if 'SQLITE' in os.environ:
+    print "FOUND SQLITE"
+    changetosql()
 
 
 # Password validation
