@@ -29,7 +29,7 @@ print BASE_DIR
 SECRET_KEY = '$l+*i&^4b%(n^+nn)p2fe#p=b4=)-l8u8rg23^0*r7r8_vcx0g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
