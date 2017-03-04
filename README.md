@@ -34,8 +34,8 @@ if(((re.search('[a-zA-Z]', form.cleaned_data['ssn'])) != None)):
 ```
 Basically, user keeps getting redirected to appropriate page
 ###Running
-1.Setup MySQL Backend
 
+1. Setup MySQL Backend
 
 ```bash
 sudo apt-get update
@@ -53,23 +53,17 @@ EXIT;
 ```
 
 2. Python Server setup
+
 ```bash
 sudo pip install virtualenv
 
-
-
-
 git clone https://github.com/akohli96/NotownRecords.git
-
-		
 
 virtualenv myenv
 
 source myenv/bin/activate
 
 pip install -r requirements
-
-
 
 gunicorn notown.wsgi
 ```
