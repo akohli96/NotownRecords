@@ -59,13 +59,13 @@ sudo pip install virtualenv
 
 
 
-git clone https://github.com/akohli96/DatabaseProject
+git clone https://github.com/akohli96/NotownRecords.git
 
 		
 
 virtualenv myenv
 
-source env/bin/activate
+source myenv/bin/activate
 
 pip install -r requirements
 
