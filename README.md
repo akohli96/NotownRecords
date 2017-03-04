@@ -35,7 +35,7 @@ if(((re.search('[a-zA-Z]', form.cleaned_data['ssn'])) != None)):
 Basically, user keeps getting redirected to appropriate page
 ###Running
 
-1. Setup MySQL Backend
+#### Setup MySQL Backend
 
 ```bash
 sudo apt-get update
@@ -52,7 +52,7 @@ FLUSH PRIVILEGES;
 EXIT;
 ```
 
-2. Python Server setup
+#### Python Server setup
 
 ```bash
 sudo pip install virtualenv
