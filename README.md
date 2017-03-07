@@ -1,4 +1,4 @@
-# Django CRUD Application
+# Notown Records
 
 
 #Technology Stack
