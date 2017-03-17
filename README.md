@@ -1,11 +1,11 @@
 # Notown Records
 
 
-#Technology Stack
+# Technology Stack
 
-##Backend:Django w/ MySQL
+## Backend:Django w/ MySQL
 
-##Frontend:Bootstrap,JQuery
+## Frontend:Bootstrap,JQuery
 
 How constraints are handled:
 
@@ -33,7 +33,7 @@ if(((re.search('[a-zA-Z]', form.cleaned_data['ssn'])) != None)):
 
 ```
 Basically, user keeps getting redirected to appropriate page
-###Running
+### Running
 
 #### Setup MySQL Backend
 
@@ -68,6 +68,6 @@ pip install -r requirements
 gunicorn notown.wsgi
 ```
 
-###HEROKU APP w\SQLITE
+### HEROKU APP w\SQLITE
 
 [Heroku app](https://notownapp.herokuapp.com/notownapp/)
