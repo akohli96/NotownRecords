@@ -7,6 +7,8 @@
 
 ## Frontend:Bootstrap,JQuery
 
+### Used Django Class Based Views
+
 How constraints are handled:
 
 1. Records get cascaded if you parent table gets deleted
